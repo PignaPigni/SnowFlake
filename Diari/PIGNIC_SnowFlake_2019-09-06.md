@@ -7,13 +7,13 @@
 ## Lavori svolti
 
 
-|Orario        |Lavoro svolto                                                       |
-|--------------|--------------------------------------------------------------------|
-|14:30 - 14:45 |Registrato su GitHub.com, Creato repository                         |
-|15:00 - 15:15 |Scaricato ed installato GitHub Desktop                              |
+|Orario        |Lavoro svolto|
+|--------------|---------------------------------------|
+|14:30 - 14:45 |Registrato su GitHub.com, Creato repository|
+|15:00 - 15:15 |Scaricato ed installato GitHub Desktop|
 |15:15 - 15:30 |Clonato Repository in locale e creato cartelle "Diari" e "Documenti"|
-|15:30 - 15:50 |Creato documentazione e diario di lavoro seguendo gli esempi        |
-|...           |                                                                    |
+|15:30 - 15:50 |Creato documentazione e diario di lavoro seguendo gli esempi|
+|15:50 - 16:30| Stesura dei primi requisiti|
 
 ##  Problemi riscontrati e soluzioni adottate
 
