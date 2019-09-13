@@ -22,3 +22,4 @@
 
 
 ## Programma di massima per la prossima giornata di lavoro
+Finire i requisiti e andare avanti con la pianificazione del progetto.

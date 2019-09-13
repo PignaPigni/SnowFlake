@@ -51,15 +51,15 @@
 
 ### Informazioni sul progetto
 
-  In questo capitolo raccogliere le informazioni relative al progetto, ad esempio:
+  -   Nicholas Pigni
 
-  -   Allievo/i e docente/i coinvolti nel progetto e rispettivi ruoli,
+  - Docenti supervisori: Luca Muggiasca, Geo Petrini
 
-  -   scuola ,sezione, materia/e,
+  -   Scuola di Arti e Mestieri Trevano, Sezione Informatica
 
-  -   date di inizio e termine di consegna,
+  -   Inizio del progetto: 06 Settembre 2019, consegna prevista: 20 Dicembre 2019
 
-  -   …
+  -  
 
 ### Abstract
 
