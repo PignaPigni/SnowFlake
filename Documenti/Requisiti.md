@@ -16,7 +16,6 @@
 |013|Deve essere presente un tasto "Genera" che crea l'anteprima del fiocco di neve|Applicazione|Alta|0.0|
 |014|Il salvataggio del fiocco di neve deve essere possibile scegliendo il percorso|Applicazione|Alta|0.0|
 |015|Il salvataggio del fiocco deve essere possibile come immagini Raster (PNG: 500p x 500p o 1000p x 1000p) e Vettoriale (SVG)|Applicazione|Alta|0.0|
-|016|Le dimensioni del triangolo iniziale...
 |017|La finestra deve essere ridimensionabile e le sue dimensioni minime sono di 1024p x 768p|Applicazione|Media|0.0|
 |018|La pagina deve presentare i requisiti minimi che l'applicazione necessita per funzionare correttamente|Web|Media|0.0|
 |019|La pagina deve contenere una guida utente che presenta le funzionalità dell'applicazione, possibilmente con degli screenshots|Web|Media|0.0|
