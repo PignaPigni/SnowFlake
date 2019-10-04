@@ -2,7 +2,7 @@
 
 # SnowFlake | Diario di lavoro
 ##### Nicholas Pigni
-### Centro Professionale Trevano, 13.09.2019
+### Centro Professionale Trevano, 27.09.2019
 
 ## Lavori svolti
 
