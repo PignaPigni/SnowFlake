@@ -33,6 +33,8 @@ public class Triangle {
      * Punto c del triangolo.
      */
     private Point c = new Point();
+    
+    private int width = 0;
 
     /**
      * Costruttore della classe Triangle.
@@ -41,6 +43,7 @@ public class Triangle {
      * @param width La lunghezza del cateto minore.
      */
     public Triangle(Point a, int width) {
+        this.width = width;
         this.a = a;
         this.b = new Point((int) a.getX() + width, (int) a.getY());
         this.c = new Point(
@@ -123,7 +126,16 @@ public class Triangle {
      */
     public void setA(Point a) {
         this.a = a;
-        //Triangle();
+        this.b = new Point((int) a.getX() + width, (int) a.getY());
+        this.c = new Point(
+                (int) b.getX(),
+                (int) b.getY() + (int) Math.sqrt(
+                Math.pow(width * 2, 2) - Math.pow(width, 2)
+        ));
+        int[] y = {(int) a.getY(), (int) b.getY(), (int) c.getY()};
+        int[] x = {(int) a.getX(), (int) b.getX(), (int) c.getX()};
+        this.y = y;
+        this.x = x;
     }
 
     /**
