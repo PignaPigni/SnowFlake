@@ -13,12 +13,13 @@ import javax.swing.JFrame;
  *
  * @author Nicholas Pigni
  */
-public class MainFrame extends JFrame implements MouseListener {
+public class MainFrame extends JFrame implements EditingPageListener {
+
     /**
      * La pagina di Editing.
      */
     private EditingPage ep;
-    
+
     /**
      * Metodo costruttore del MainFrame.
      */
@@ -26,36 +27,28 @@ public class MainFrame extends JFrame implements MouseListener {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setSize(1024, 768);
         this.setMinimumSize(new Dimension(1024, 768));
-        
+
         ep = new EditingPage();
+        this.addMouseListener(ep);
+        this.addMouseMotionListener(ep);
+        ep.addEditingPageListener(this);
+        this.setLayout(null);
     }
 
     public void paint(Graphics g) {
+        super.paint(g);
+        ep.update(this.getWidth(), this.getHeight());
         ep.paint(g);
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent arg0) {
-    }
-
-    @Override
-    public void mousePressed(MouseEvent arg0) {
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent arg0) {
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent arg0) {
-    }
-
-    @Override
-    public void mouseExited(MouseEvent arg0) {
     }
 
     public static void main(String[] args) {
         MainFrame mf = new MainFrame();
         mf.setVisible(true);
+    }
+
+    @Override
+    public void update() {
+        this.repaint();
+        System.out.println("skuuuu");
     }
 }

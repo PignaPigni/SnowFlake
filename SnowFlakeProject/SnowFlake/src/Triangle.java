@@ -1,4 +1,3 @@
-
 import java.awt.Graphics;
 import java.awt.Point;
 
@@ -33,7 +32,7 @@ public class Triangle {
      * Punto c del triangolo.
      */
     private Point c = new Point();
-    
+
     private int width = 0;
 
     /**
@@ -56,7 +55,8 @@ public class Triangle {
         this.y = y;
         this.x = x;
     }
-/*
+
+    /*
     public Triangle() {
         this.b = new Point((int) a.getX() + width, (int) a.getY());
         this.c = new Point(
@@ -69,7 +69,7 @@ public class Triangle {
         this.y = y;
         this.x = x;
     }*/
-
+    
     public void paint(Graphics g) {
         g.fillPolygon(x, y, 3);
     }
@@ -125,6 +125,38 @@ public class Triangle {
      * @param a Il punto da settare.
      */
     public void setA(Point a) {
+        update(a, this.width);
+    }
+
+    /**
+     * Metodo setter delle coordinate del punto c del triangolo.
+     *
+     * @param b Il punto da settare.
+     */
+    public void setB(Point b) {
+        update(this.a, this.width);
+    }
+
+    /**
+     * Metodo setter delle coordinate del punto c del triangolo.
+     *
+     * @param c Il punto da settare.
+     */
+    public void setC(Point c) {
+        update(this.a, this.width);
+    }
+
+    /**
+     * Metodo setter della lunghezza del cateto minore del triangolo.
+     *
+     * @param width La lunghezza del cateto minore del triangolo.
+     */
+    public void setWidth(int width) {
+        update(this.a, width);
+    }
+    
+    public void update(Point a, int width){
+        this.width = width;
         this.a = a;
         this.b = new Point((int) a.getX() + width, (int) a.getY());
         this.c = new Point(
@@ -136,23 +168,5 @@ public class Triangle {
         int[] x = {(int) a.getX(), (int) b.getX(), (int) c.getX()};
         this.y = y;
         this.x = x;
-    }
-
-    /**
-     * Metodo setter delle coordinate del punto c del triangolo.
-     *
-     * @param b Il punto da settare.
-     */
-    public void setB(Point b) {
-        this.b = b;
-    }
-
-    /**
-     * Metodo setter delle coordinate del punto c del triangolo.
-     *
-     * @param c Il punto da settare.
-     */
-    public void setC(Point c) {
-        this.c = c;
     }
 }
