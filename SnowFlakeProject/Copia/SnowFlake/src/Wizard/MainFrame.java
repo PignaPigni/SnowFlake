@@ -1,3 +1,5 @@
+package Wizard;
+
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -13,40 +15,40 @@ import javax.swing.JFrame;
  *
  * @author Nicholas Pigni
  */
-public class MainFrame extends JFrame implements EditingPageListener {
+public class MainFrame extends JFrame{
 
     /**
      * La pagina di Editing.
      */
-    private EditingPage ep;
+    //private EditingPage ep;
 
     /**
      * Metodo costruttore del MainFrame.
      */
     public MainFrame() {
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        /*this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setSize(1024, 768);
-        this.setMinimumSize(new Dimension(1024, 768));
+        this.setMinimumSize(new Dimension(1024, 768));*/
 
-        ep = new EditingPage();
-        this.addMouseListener(ep);
-        this.addMouseMotionListener(ep);
-        ep.addEditingPageListener(this);
+        //ep = new EditingPage();
+        //this.addMouseListener(ep);
+        //this.addMouseMotionListener(ep);
+        //ep.addEditingPageListener(this);
         this.setLayout(null);
     }
 
     public void paint(Graphics g) {
         super.paint(g);
-        ep.update(this.getWidth(), this.getHeight());
-        ep.paint(g);
+        //ep.update(this.getWidth(), this.getHeight());
+        //ep.paint(g);
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         MainFrame mf = new MainFrame();
         mf.setVisible(true);
-    }
+    }*/
 
-    @Override
+    //@Override
     public void update() {
         this.repaint();
     }

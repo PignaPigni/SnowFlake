@@ -8,25 +8,19 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import static java.lang.System.in;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JFileChooser;
+import javax.swing.JPanel;
 
 /**
  * Classe che disegna la pagina di editing del triangolo.
  *
  * @author Nicholas Pigni
  */
-public class EditingPage implements MouseListener, MouseMotionListener {
+public class OldEditingPage extends JPanel implements MouseListener, MouseMotionListener {
 
     /**
      * Il file del salvataggio dei punti di taglio del progetto corrente.
@@ -62,11 +56,6 @@ public class EditingPage implements MouseListener, MouseMotionListener {
      * Determina se bisogna disegnare o meno i punti di taglio.
      */
     private boolean drawDots = true;
-
-    /**
-     * Lista dei punti di taglio.
-     */
-    private List<EditingPageListener> listeners;
 
     /**
      * La larghezza della pagina.
@@ -118,9 +107,8 @@ public class EditingPage implements MouseListener, MouseMotionListener {
      */
     private Rectangle openButton = new Rectangle(10, 375, 150, 30);
 
-    public EditingPage() {
+    public OldEditingPage() {
         triangle = new Triangle(new Point(1024 / 3, 768 / 4), 1024 / 4);
-        listeners = new ArrayList<EditingPageListener>();
         dots = new ArrayList<Point>();
     }
 
@@ -129,7 +117,7 @@ public class EditingPage implements MouseListener, MouseMotionListener {
      *
      * @param g Il contesto grafico.
      */
-    public void paint(Graphics g) {
+    public void paintComponent(Graphics g) {
         g.setColor(new Color(200, 230, 255));
         g.fillRect(0, 0, width, height);
         g.setColor(new Color(100, 150, 170));
@@ -158,7 +146,6 @@ public class EditingPage implements MouseListener, MouseMotionListener {
         }
         //----------------------------------------------------------------------
         //DISEGNO GLI ALTRI BOTTONI---------------------------------------------
- 
 
         g.setColor(Color.GRAY);
         g.fillRect(undoButton.x, undoButton.y, undoButton.width, undoButton.height);
@@ -184,7 +171,7 @@ public class EditingPage implements MouseListener, MouseMotionListener {
         g.fillRect(saveButton.x, saveButton.y, saveButton.width, saveButton.height);
         g.setColor(Color.BLACK);
         g.drawString("Save", saveButton.x, saveButton.y + saveButton.height - 3);
-        
+
         g.setColor(Color.BLACK);
         if (currentFile != null) {
             g.drawString("Selected File: " + currentFile.getName(), 10, 60);
@@ -209,11 +196,7 @@ public class EditingPage implements MouseListener, MouseMotionListener {
             g.fillOval(dot.x - RADIUS, dot.y - RADIUS, RADIUS * 2, RADIUS * 2);
         }
         //----------------------------------------------------------------------
-    }
-
-    public void update(int width, int height) {
-        this.width = width;
-        this.height = height;
+        System.out.println(this.getWidth() + "  " + this.getHeight());
     }
 
     public boolean contains(Point p, Rectangle rect) {
@@ -280,10 +263,7 @@ public class EditingPage implements MouseListener, MouseMotionListener {
             }
             cutPoly = new Polygon(xPoints, yPoints, dots.size());
         }
-
-        for (EditingPageListener listener : listeners) {
-            listener.update();
-        }
+        this.repaint();
     }
 
     @Override
@@ -322,21 +302,11 @@ public class EditingPage implements MouseListener, MouseMotionListener {
             }
             cutPoly = new Polygon(xPoints, yPoints, dots.size());
         }
-        for (EditingPageListener listener : listeners) {
-            listener.update();
-        }
+        this.repaint();
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-    }
-
-    public void addEditingPageListener(EditingPageListener listener) {
-        listeners.add(listener);
-    }
-
-    public void removeEditingPageListener(EditingPageListener listener) {
-        listeners.remove(listener);
     }
 
     public void saveDots() {
@@ -383,8 +353,6 @@ public class EditingPage implements MouseListener, MouseMotionListener {
                 cutPoly = new Polygon(xPoints, yPoints, dots.size());
             }
         }
-        for (EditingPageListener listener : listeners) {
-            listener.update();
-        }
+        this.repaint();
     }
 }
