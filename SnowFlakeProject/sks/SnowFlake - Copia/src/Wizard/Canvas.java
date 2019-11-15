@@ -1,8 +1,3 @@
-
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Polygon;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -13,24 +8,16 @@ import java.awt.Polygon;
  *
  * @author nicho
  */
-public class TriangleTry extends javax.swing.JPanel {
-    private Polygon t;
-    
-    private TriangleModel tm = new TriangleModel();
-    
+public class Canvas extends javax.swing.JPanel {
+
     /**
-     * Creates new form TriangleTry
+     * Creates new form Canvas
      */
-    public TriangleTry() {
-        initComponents();
-    }
     
-    public void paintComponent(Graphics g){
-        g.setColor(Color.red);
-        tm.calculateTriangleByPanelSize(this.getWidth(), this.getHeight());
-        t = tm.triangle;
-        //System.out.println("" + t.xpoints[0]);
-        g.fillPolygon(t);
+    
+    public Canvas() {
+        initComponents();
+        
     }
 
     /**
@@ -41,6 +28,12 @@ public class TriangleTry extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -53,6 +46,10 @@ public class TriangleTry extends javax.swing.JPanel {
             .addGap(0, 300, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

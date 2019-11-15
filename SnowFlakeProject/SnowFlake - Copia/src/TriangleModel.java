@@ -28,7 +28,7 @@ public class TriangleModel {
      * L'altezza del triangolo modello.
      */
     private int T_HEIGHT;
-    
+
     /**
      * Il margine minimo che deve tenere il triangolo.
      */
@@ -40,15 +40,30 @@ public class TriangleModel {
     public ArrayList<Point> dots = new ArrayList<Point>();
 
     /**
+     * La x da cui deve partire per disegnare i punti.
+     */
+    public int s_x;
+
+    /**
+     * La y da cui deve partire per disegnare i punti.
+     */
+    public int s_y;
+
+    /**
+     * Il Raggio dei punti di taglio.
+     */
+    public int RADIUS = 10;
+
+    /**
      * Costruttore della classe TriangleModel.
      */
     public TriangleModel() {
     }
 
     public void calculateTriangleByPanelSize(int width, int height) {
+
         int[] xPoints = new int[3];
         int[] yPoints = new int[3];
-
         int maxWidth = width - MARGIN * 2;
         int maxHeight = height - MARGIN * 2;
 
@@ -56,8 +71,8 @@ public class TriangleModel {
         int c1 = T_HEIGHT * maxWidth / T_WIDTH;
         int f_w = T_WIDTH * maxHeight / T_HEIGHT;
         int f_h = maxHeight;
-        int s_x = MARGIN + (maxWidth - f_w) / 2;
-        int s_y = MARGIN;
+        s_x = MARGIN + (maxWidth - f_w) / 2;
+        s_y = MARGIN;
 
         if (f_w > maxWidth) {
             f_w = maxWidth;
@@ -78,9 +93,9 @@ public class TriangleModel {
 
     public void addDotToModel(Point dot, int width, int height) {
         this.calculateTriangleByPanelSize(width, height);
-        
-        int x = dot.x * T_WIDTH / width;
-        int y = dot.y * T_HEIGHT / height;
+
+        int x = (dot.x - triangle.xpoints[0]) * T_WIDTH / triangle.getBounds().width;
+        int y = (dot.y - triangle.ypoints[0]) * T_HEIGHT / triangle.getBounds().height;
 
         dots.add(new Point(x, y));
     }
@@ -94,13 +109,36 @@ public class TriangleModel {
         return this.triangle;
     }
 
+    public int[][] getCoords() {
+        int[][] coords = {};
+        for(int i = 0; i < dots.size(); i++){
+            coords[0][i] = (int)dots.get(i).x;
+            coords[1][i] = (int)dots.get(i).y;
+        }
+        return coords;
+    }
+
     /**
      * Ritorna i punti di taglio in base al triangolo da stampare.
      *
      * @return ArrayList<Point> Lista con i punti di taglio del triangolo.
      */
-    public ArrayList<Point> getDots() {
-        return this.dots;
+    public ArrayList<Point> getDots(int width, int height) {
+        this.calculateTriangleByPanelSize(width, height);
+        ArrayList<Point> newDots = new ArrayList<Point>();
+        Point resDot = new Point();
+        for (Point dot : this.dots) {
+            resDot.x = triangle.getBounds().x + (int) (dot.getX() * triangle.getBounds().getWidth() / (double) T_WIDTH);
+            resDot.y = triangle.getBounds().y + (int) (dot.getY() * triangle.getBounds().getHeight() / (double) T_HEIGHT);
+            newDots.add(resDot);
+            resDot = new Point();
+            /*
+            dot.x = (dot.x - triangle.xpoints[0]) * T_WIDTH / triangle.getBounds().width;
+            dot.y = (dot.y - triangle.ypoints[0]) * T_HEIGHT / triangle.getBounds().height;
+            /*dot.x = s_x + dot.x * triangle.getBounds().width / T_WIDTH;
+            dot.y = s_y + dot.y * triangle.getBounds().height / T_HEIGHT;*/
+        }
+        return newDots;
     }
 
 }

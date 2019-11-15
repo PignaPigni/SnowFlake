@@ -8,13 +8,18 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import static java.lang.System.in;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFileChooser;
-import javax.swing.JPanel;
 
 /**
  * Classe che disegna la pagina di editing del triangolo.
@@ -113,11 +118,6 @@ public class EditingPage implements MouseListener, MouseMotionListener {
      */
     private Rectangle openButton = new Rectangle(10, 375, 150, 30);
 
-    /**
-     * Il modello del triangolo.
-     */
-    private TriangleModel triangleModel = new TriangleModel();
-
     public EditingPage() {
         triangle = new Triangle(new Point(1024 / 3, 768 / 4), 1024 / 4);
         listeners = new ArrayList<EditingPageListener>();
@@ -158,6 +158,7 @@ public class EditingPage implements MouseListener, MouseMotionListener {
         }
         //----------------------------------------------------------------------
         //DISEGNO GLI ALTRI BOTTONI---------------------------------------------
+ 
 
         g.setColor(Color.GRAY);
         g.fillRect(undoButton.x, undoButton.y, undoButton.width, undoButton.height);
@@ -183,7 +184,7 @@ public class EditingPage implements MouseListener, MouseMotionListener {
         g.fillRect(saveButton.x, saveButton.y, saveButton.width, saveButton.height);
         g.setColor(Color.BLACK);
         g.drawString("Save", saveButton.x, saveButton.y + saveButton.height - 3);
-
+        
         g.setColor(Color.BLACK);
         if (currentFile != null) {
             g.drawString("Selected File: " + currentFile.getName(), 10, 60);
@@ -208,8 +209,6 @@ public class EditingPage implements MouseListener, MouseMotionListener {
             g.fillOval(dot.x - RADIUS, dot.y - RADIUS, RADIUS * 2, RADIUS * 2);
         }
         //----------------------------------------------------------------------
-
-        //triangleModel.calculateTriangleByPanelSize(this.getWidth(), this.getHeight());
     }
 
     public void update(int width, int height) {
@@ -235,13 +234,8 @@ public class EditingPage implements MouseListener, MouseMotionListener {
         } else if (contains(e.getPoint(), removeButton)) {
             isAdd = false;
         } else if (contains(e.getPoint(), fillPolyButton)) {
-            if (fillPoly) {
-                fillPoly = false;
-                drawDots = true;
-            } else {
-                fillPoly = true;
-                drawDots = false;
-            }
+            fillPoly = true;
+            drawDots = false;
         } else if (contains(e.getPoint(), undoButton)) {
             if (dots.size() > 0) {
                 dots.remove(dots.size() - 1);
