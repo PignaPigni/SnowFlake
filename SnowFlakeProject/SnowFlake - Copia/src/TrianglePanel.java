@@ -3,7 +3,11 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Polygon;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
+import javax.swing.JFileChooser;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -52,11 +56,15 @@ public class TrianglePanel extends javax.swing.JPanel {
     private ArrayList<Point> dots = new ArrayList<Point>();
 
     /**
+     * Il file corrente del salvataggio dei punti.
+     */
+    public File currentFile = null;
+
+    /**
      * Creates new form TrianglePanel
      */
     public TrianglePanel() {
         initComponents();
-        //this.setSize(1000, 1000);
     }
 
     @Override
@@ -65,15 +73,9 @@ public class TrianglePanel extends javax.swing.JPanel {
         triangleModel.calculateTriangleByPanelSize(this.getWidth(), this.getHeight());
         triangle = triangleModel.getTriangle();
         dots = triangleModel.getDots(this.getWidth(), this.getHeight());
+        this.refreshPoly();
         g.setColor(Color.CYAN);
         g.fillPolygon(triangle);
-
-        if (drawDots) {
-            g.setColor(Color.RED);
-            for (Point dot : dots) {
-                g.fillOval(dot.x, dot.y, triangleModel.RADIUS * 2, triangleModel.RADIUS * 2);
-            }
-        }
         if (fillPoly) {
             g.setColor(Color.WHITE);
             g.fillPolygon(cutPoly);
@@ -81,6 +83,13 @@ public class TrianglePanel extends javax.swing.JPanel {
             g.setColor(Color.BLACK);
             g.fillPolygon(cutPoly);
         }
+        if (drawDots) {
+            g.setColor(Color.RED);
+            for (Point dot : dots) {
+                g.fillOval(dot.x - triangleModel.RADIUS, dot.y - triangleModel.RADIUS, triangleModel.RADIUS * 2, triangleModel.RADIUS * 2);
+            }
+        }
+
     }
 
     /**
@@ -95,6 +104,11 @@ public class TrianglePanel extends javax.swing.JPanel {
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(1024, 768));
         setPreferredSize(new java.awt.Dimension(1024, 768));
+        addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                formMouseDragged(evt);
+            }
+        });
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 formMouseClicked(evt);
@@ -107,15 +121,30 @@ public class TrianglePanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
-
     }//GEN-LAST:event_formMouseClicked
 
     private void formMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseReleased
-        this.triangleModel.addDotToModel(new Point(
-                (int)evt.getPoint().getX()-triangleModel.RADIUS, 
-                (int)evt.getPoint().getY()-triangleModel.RADIUS), 
-                this.getWidth(), this.getHeight()
-        );
+        if (isAdd) {
+            this.triangleModel.addDotToModel(new Point(
+                    (int) evt.getPoint().getX(),
+                    (int) evt.getPoint().getY()),
+                    this.getWidth(), this.getHeight()
+            );
+        } else {
+
+            int i = 0;
+            for (Point dot : dots) {
+                if (evt.getX() > dot.x - triangleModel.RADIUS
+                        && evt.getX() < dot.getX() + triangleModel.RADIUS
+                        && evt.getY() > dot.y - triangleModel.RADIUS
+                        && evt.getY() < dot.getY() + triangleModel.RADIUS) {
+                    this.triangleModel.removeDotToModel(i, this.getWidth(), this.getHeight());
+                    break;
+                }
+                i++;
+            }
+        }
+
         this.dots = triangleModel.getDots(this.getWidth(), this.getHeight());
         int[] xPoints = new int[dots.size()];
         int[] yPoints = new int[dots.size()];
@@ -128,6 +157,155 @@ public class TrianglePanel extends javax.swing.JPanel {
         repaint();
     }//GEN-LAST:event_formMouseReleased
 
+    private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
+        if (isAdd) {
+            int i = 0;
+            for (Point dot : dots) {
+                if (evt.getX() > dot.x - triangleModel.RADIUS*2
+                        && evt.getX() < dot.getX() + triangleModel.RADIUS*2
+                        && evt.getY() > dot.y - triangleModel.RADIUS*2
+                        && evt.getY() < dot.getY() + triangleModel.RADIUS*2) {
+                    this.triangleModel.moveModelDot(i, new Point(
+                            (int) evt.getPoint().getX(),
+                            (int) evt.getPoint().getY()),
+                            this.getWidth(), this.getHeight()
+                    );
+                    break;
+                }
+                i++;
+            }
+        }
+    }//GEN-LAST:event_formMouseDragged
+
+    public void refreshPoly() {
+        this.dots = triangleModel.getDots(this.getWidth(), this.getHeight());
+        int[] xPoints = new int[dots.size()];
+        int[] yPoints = new int[dots.size()];
+
+        for (int i = 0; i < dots.size(); i++) {
+            xPoints[i] = dots.get(i).x;
+            yPoints[i] = dots.get(i).y;
+        }
+        cutPoly = new Polygon(xPoints, yPoints, dots.size());
+        repaint();
+    }
+
+    public void reset() {
+        this.triangleModel.reset();
+        repaint();
+    }
+
+    public void undo() {
+        this.triangleModel.undo();
+        repaint();
+    }
+
+    public void saveDots() {
+        StringBuilder data = new StringBuilder();
+        for (int i = 0; i < dots.size(); i++) {
+            data.append(dots.get(i).x + ", " + dots.get(i).y + "\n");
+        }
+
+        if (currentFile != null) {
+            try {
+                currentFile.createNewFile();
+                Files.write(currentFile.toPath(), data.toString().getBytes());
+            } catch (IOException ex) {
+                System.out.println("Errore di scrittura del File");
+            }
+        } else {
+            JFileChooser fc = new JFileChooser();
+            MainFrame mf = new MainFrame();
+            int returnVal = fc.showSaveDialog(mf);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                currentFile = fc.getSelectedFile();
+                System.out.println("name:\t" + currentFile.getName());
+                try {
+                    currentFile.createNewFile();
+                    Files.write(currentFile.toPath(), data.toString().getBytes());
+                } catch (IOException ex) {
+                    System.out.println("Errore di scrittura del File");
+                }
+            } else {
+                System.out.println("File doesn't exists.");
+                currentFile = null;
+            }
+        }
+    }
+
+    public void saveDotsAs() {
+        StringBuilder data = new StringBuilder();
+        for (int i = 0; i < dots.size(); i++) {
+            data.append(dots.get(i).x + ", " + dots.get(i).y + "\n");
+        }
+
+        JFileChooser fc = new JFileChooser();
+        MainFrame mf = new MainFrame();
+        int returnVal = fc.showSaveDialog(mf);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            currentFile = fc.getSelectedFile();
+            System.out.println("name:\t" + currentFile.getName());
+            try {
+                currentFile.createNewFile();
+                Files.write(currentFile.toPath(), data.toString().getBytes());
+            } catch (IOException ex) {
+                System.out.println("Errore di scrittura del File");
+            }
+        } else {
+            System.out.println("File doesn't exists.");
+            currentFile = null;
+        }
+    }
+
+    public void openDots() {
+        //JFileChooser
+        JFileChooser fc = new JFileChooser();
+        MainFrame mf = new MainFrame();
+        int returnVal = fc.showOpenDialog(mf);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            currentFile = fc.getSelectedFile();
+            System.out.println("name:\t" + currentFile.getName());
+        } else {
+            System.out.println("File doesn't exists.");
+            currentFile = null;
+        }
+        //-------------------
+
+        //Carico i punti.
+        if (currentFile != null) {
+            ArrayList csvDots = new ArrayList<>();
+            try {
+                csvDots = (ArrayList) Files.readAllLines(currentFile.toPath());
+            } catch (IOException ex) {
+                System.out.println("Errore di lettura del File");
+            }
+            String[] data = {"", ""};
+            this.triangleModel.reset();
+            for (Object dot : csvDots) {
+                System.out.println("dot: " + dot);
+                data = dot.toString().split(", ");
+                this.triangleModel.addDotToModel(new Point(Integer.parseInt(data[0]), Integer.parseInt(data[1])), this.getWidth(), this.getHeight());
+            }
+
+            if (this.dots.size() >= 2) {
+                int[] xPoints = new int[this.dots.size()];
+                int[] yPoints = new int[this.dots.size()];
+                for (int i = 0; i < this.dots.size(); i++) {
+                    xPoints[i] = this.dots.get(i).x;
+                    yPoints[i] = this.dots.get(i).y;
+                }
+                this.cutPoly = new Polygon(xPoints, yPoints, this.dots.size());
+            }
+        }
+        repaint();
+    }
+
+    public String getCurrentFileName() {
+        if (currentFile != null) {
+            return this.currentFile.getName();
+        }
+        return null;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

@@ -1,3 +1,6 @@
+
+import java.io.IOException;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -13,8 +16,10 @@ public class MainFrame extends javax.swing.JFrame {
     /**
      * Creates new form MainFrame
      */
-    public MainFrame() {
+    public MainFrame(){
         initComponents();
+
+        
     }
 
     /**
@@ -29,6 +34,7 @@ public class MainFrame extends javax.swing.JFrame {
         editingPagePanel1 = new EditingPagePanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setIconImages(null);
         setMinimumSize(new java.awt.Dimension(1080, 760));
         setPreferredSize(new java.awt.Dimension(1080, 760));
 

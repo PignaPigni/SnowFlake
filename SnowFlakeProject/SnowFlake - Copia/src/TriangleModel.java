@@ -91,13 +91,30 @@ public class TriangleModel {
         this.triangle = new Polygon(xPoints, yPoints, 3);
     }
 
+    /**
+     * Aggiunge un punto dalla lista dei punti di taglio.
+     *
+     * @param dot Il punto da aggiungere.
+     * @param width La larghezza della finestra.
+     * @param height L'altezza della finestra.
+     */
     public void addDotToModel(Point dot, int width, int height) {
         this.calculateTriangleByPanelSize(width, height);
-
         int x = (dot.x - triangle.xpoints[0]) * T_WIDTH / triangle.getBounds().width;
         int y = (dot.y - triangle.ypoints[0]) * T_HEIGHT / triangle.getBounds().height;
-
         dots.add(new Point(x, y));
+    }
+
+    /**
+     * Rimuove un punto dalla lista dei punti di taglio.
+     *
+     * @param index L'index del punto da rimuovere.
+     * @param width La larghezza della finestra.
+     * @param height L'altezza della finestra.
+     */
+    public void removeDotToModel(int index, int width, int height) {
+        this.calculateTriangleByPanelSize(width, height);
+        this.dots.remove(dots.get(index));
     }
 
     /**
@@ -111,9 +128,9 @@ public class TriangleModel {
 
     public int[][] getCoords() {
         int[][] coords = {};
-        for(int i = 0; i < dots.size(); i++){
-            coords[0][i] = (int)dots.get(i).x;
-            coords[1][i] = (int)dots.get(i).y;
+        for (int i = 0; i < dots.size(); i++) {
+            coords[0][i] = (int) dots.get(i).x;
+            coords[1][i] = (int) dots.get(i).y;
         }
         return coords;
     }
@@ -132,13 +149,24 @@ public class TriangleModel {
             resDot.y = triangle.getBounds().y + (int) (dot.getY() * triangle.getBounds().getHeight() / (double) T_HEIGHT);
             newDots.add(resDot);
             resDot = new Point();
-            /*
-            dot.x = (dot.x - triangle.xpoints[0]) * T_WIDTH / triangle.getBounds().width;
-            dot.y = (dot.y - triangle.ypoints[0]) * T_HEIGHT / triangle.getBounds().height;
-            /*dot.x = s_x + dot.x * triangle.getBounds().width / T_WIDTH;
-            dot.y = s_y + dot.y * triangle.getBounds().height / T_HEIGHT;*/
         }
         return newDots;
     }
 
+    public void reset() {
+        this.dots = new ArrayList<Point>();
+    }
+
+    public void undo() {
+        if (dots.size() > 0) {
+            this.dots.remove(dots.get(dots.size() - 1));
+        }
+    }
+
+    public void moveModelDot(int i, Point newDot, int width, int height) {
+        this.calculateTriangleByPanelSize(width, height);
+        int x = (newDot.x - triangle.xpoints[0]) * T_WIDTH / triangle.getBounds().width;
+        int y = (newDot.y - triangle.ypoints[0]) * T_HEIGHT / triangle.getBounds().height;
+        dots.set(i, new Point(x, y));
+    }
 }

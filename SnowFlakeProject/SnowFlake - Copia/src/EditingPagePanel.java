@@ -38,6 +38,7 @@ public class EditingPagePanel extends javax.swing.JPanel {
         previewButton = new javax.swing.JCheckBox();
         saveButton = new javax.swing.JButton();
         saveAsButton = new javax.swing.JButton();
+        currentFileName = new javax.swing.JLabel();
         trianglePanel = new TrianglePanel();
 
         setMinimumSize(new java.awt.Dimension(1024, 768));
@@ -46,10 +47,25 @@ public class EditingPagePanel extends javax.swing.JPanel {
         setLayout(new java.awt.BorderLayout());
 
         undoButton.setText("Undo");
+        undoButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                undoButtonActionPerformed(evt);
+            }
+        });
 
         resetButton.setText("Reset");
+        resetButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetButtonActionPerformed(evt);
+            }
+        });
 
         openButton.setText("Open");
+        openButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openButtonActionPerformed(evt);
+            }
+        });
 
         addRemoveRadioButtons.add(addRadioButton);
         addRadioButton.setSelected(true);
@@ -79,9 +95,21 @@ public class EditingPagePanel extends javax.swing.JPanel {
             }
         });
 
-        saveButton.setText("Save");
+        saveButton.setText("Save Dots");
+        saveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveButtonActionPerformed(evt);
+            }
+        });
 
-        saveAsButton.setText("Save As");
+        saveAsButton.setText("Save Dots As");
+        saveAsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveAsButtonActionPerformed(evt);
+            }
+        });
+
+        currentFileName.setText("No File Selected");
 
         javax.swing.GroupLayout leftMenuLayout = new javax.swing.GroupLayout(leftMenu);
         leftMenu.setLayout(leftMenuLayout);
@@ -90,29 +118,28 @@ public class EditingPagePanel extends javax.swing.JPanel {
             .addGroup(leftMenuLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(leftMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(currentFileName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(resetButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, leftMenuLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(leftMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(removeRadioButton)
-                            .addComponent(addRadioButton)))
-                    .addGroup(leftMenuLayout.createSequentialGroup()
-                        .addComponent(previewButton)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(saveAsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(saveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(openButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(undoButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(undoButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(leftMenuLayout.createSequentialGroup()
+                        .addGroup(leftMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(removeRadioButton)
+                            .addComponent(addRadioButton)
+                            .addComponent(previewButton))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         leftMenuLayout.setVerticalGroup(
             leftMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(leftMenuLayout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addGap(23, 23, 23)
                 .addComponent(addRadioButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(removeRadioButton)
-                .addGap(4, 4, 4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(undoButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(resetButton)
@@ -124,13 +151,14 @@ public class EditingPagePanel extends javax.swing.JPanel {
                 .addComponent(saveButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(saveAsButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(currentFileName)
+                .addContainerGap(516, Short.MAX_VALUE))
         );
 
         add(leftMenu, java.awt.BorderLayout.WEST);
 
         trianglePanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        trianglePanel.setMinimumSize(new java.awt.Dimension(1024, 768));
 
         javax.swing.GroupLayout trianglePanelLayout = new javax.swing.GroupLayout(trianglePanel);
         trianglePanel.setLayout(trianglePanelLayout);
@@ -161,10 +189,42 @@ public class EditingPagePanel extends javax.swing.JPanel {
         repaint();
     }//GEN-LAST:event_previewButtonActionPerformed
 
+    private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
+        trianglePanel.reset();
+        repaint();
+    }//GEN-LAST:event_resetButtonActionPerformed
+
+    private void undoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoButtonActionPerformed
+        trianglePanel.undo();
+        repaint();
+    }//GEN-LAST:event_undoButtonActionPerformed
+
+    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
+        trianglePanel.saveDots();
+        if (trianglePanel.getCurrentFileName() != null) {
+            this.currentFileName.setText("Working File: " + trianglePanel.currentFile.getName());
+        }
+    }//GEN-LAST:event_saveButtonActionPerformed
+
+    private void openButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openButtonActionPerformed
+        trianglePanel.openDots();
+        if (trianglePanel.getCurrentFileName() != null) {
+            this.currentFileName.setText("Working File: " + trianglePanel.currentFile.getName());
+        }
+    }//GEN-LAST:event_openButtonActionPerformed
+
+    private void saveAsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsButtonActionPerformed
+        trianglePanel.saveDotsAs();
+        if (trianglePanel.getCurrentFileName() != null) {
+            this.currentFileName.setText("Working File: " + trianglePanel.currentFile.getName());
+        }
+    }//GEN-LAST:event_saveAsButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton addRadioButton;
     private javax.swing.ButtonGroup addRemoveRadioButtons;
+    private javax.swing.JLabel currentFileName;
     private javax.swing.JPanel leftMenu;
     private javax.swing.JButton openButton;
     private javax.swing.JCheckBox previewButton;
