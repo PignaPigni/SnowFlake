@@ -163,10 +163,16 @@ public class TriangleModel {
         }
     }
 
-    public void moveModelDot(int i, Point newDot, int width, int height) {
+    public void moveModelDot(int i, Point newDot, int width, int height, boolean curved) {
         this.calculateTriangleByPanelSize(width, height);
         int x = (newDot.x - triangle.xpoints[0]) * T_WIDTH / triangle.getBounds().width;
         int y = (newDot.y - triangle.ypoints[0]) * T_HEIGHT / triangle.getBounds().height;
-        dots.set(i, new Point(x, y));
+        if(!curved){
+            dots.remove(i);
+        }
+        dots.add(i, new Point(x, y));
+        System.out.println("x: " + x);
+        System.out.println("y: " + y);
+
     }
 }

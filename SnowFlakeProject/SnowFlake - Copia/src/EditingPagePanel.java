@@ -39,6 +39,8 @@ public class EditingPagePanel extends javax.swing.JPanel {
         saveButton = new javax.swing.JButton();
         saveAsButton = new javax.swing.JButton();
         currentFileName = new javax.swing.JLabel();
+        dragRadioButton = new javax.swing.JRadioButton();
+        curvedRadioButton1 = new javax.swing.JRadioButton();
         trianglePanel = new TrianglePanel();
 
         setMinimumSize(new java.awt.Dimension(1024, 768));
@@ -111,6 +113,28 @@ public class EditingPagePanel extends javax.swing.JPanel {
 
         currentFileName.setText("No File Selected");
 
+        addRemoveRadioButtons.add(dragRadioButton);
+        dragRadioButton.setText("Drag");
+        dragRadioButton.setToolTipText("");
+        dragRadioButton.setAlignmentY(0.0F);
+        dragRadioButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        dragRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dragRadioButtonActionPerformed(evt);
+            }
+        });
+
+        addRemoveRadioButtons.add(curvedRadioButton1);
+        curvedRadioButton1.setText("Curved Line");
+        curvedRadioButton1.setToolTipText("");
+        curvedRadioButton1.setAlignmentY(0.0F);
+        curvedRadioButton1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        curvedRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                curvedRadioButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout leftMenuLayout = new javax.swing.GroupLayout(leftMenu);
         leftMenu.setLayout(leftMenuLayout);
         leftMenuLayout.setHorizontalGroup(
@@ -120,15 +144,17 @@ public class EditingPagePanel extends javax.swing.JPanel {
                 .addGroup(leftMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(currentFileName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(resetButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(saveAsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(saveAsButton, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
                     .addComponent(saveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(openButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(undoButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(leftMenuLayout.createSequentialGroup()
                         .addGroup(leftMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(removeRadioButton)
+                            .addComponent(curvedRadioButton1)
                             .addComponent(addRadioButton)
-                            .addComponent(previewButton))
+                            .addComponent(previewButton)
+                            .addComponent(dragRadioButton)
+                            .addComponent(removeRadioButton))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -137,9 +163,13 @@ public class EditingPagePanel extends javax.swing.JPanel {
             .addGroup(leftMenuLayout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addComponent(addRadioButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(curvedRadioButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(removeRadioButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(dragRadioButton)
+                .addGap(12, 12, 12)
                 .addComponent(undoButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(resetButton)
@@ -153,7 +183,7 @@ public class EditingPagePanel extends javax.swing.JPanel {
                 .addComponent(saveAsButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(currentFileName)
-                .addContainerGap(516, Short.MAX_VALUE))
+                .addContainerGap(466, Short.MAX_VALUE))
         );
 
         add(leftMenu, java.awt.BorderLayout.WEST);
@@ -177,10 +207,12 @@ public class EditingPagePanel extends javax.swing.JPanel {
 
     private void removeRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeRadioButtonActionPerformed
         trianglePanel.isAdd = false;
+        trianglePanel.isDrag = false;
     }//GEN-LAST:event_removeRadioButtonActionPerformed
 
     private void addRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addRadioButtonActionPerformed
         trianglePanel.isAdd = true;
+        trianglePanel.isDrag = false;
     }//GEN-LAST:event_addRadioButtonActionPerformed
 
     private void previewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previewButtonActionPerformed
@@ -220,11 +252,24 @@ public class EditingPagePanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_saveAsButtonActionPerformed
 
+    private void dragRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dragRadioButtonActionPerformed
+        trianglePanel.isAdd = false;
+        trianglePanel.isDrag = true;
+    }//GEN-LAST:event_dragRadioButtonActionPerformed
+
+    private void curvedRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_curvedRadioButton1ActionPerformed
+        trianglePanel.isCurved = true;
+        trianglePanel.isAdd = false;
+        trianglePanel.isDrag = true;
+    }//GEN-LAST:event_curvedRadioButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton addRadioButton;
     private javax.swing.ButtonGroup addRemoveRadioButtons;
     private javax.swing.JLabel currentFileName;
+    private javax.swing.JRadioButton curvedRadioButton1;
+    private javax.swing.JRadioButton dragRadioButton;
     private javax.swing.JPanel leftMenu;
     private javax.swing.JButton openButton;
     private javax.swing.JCheckBox previewButton;

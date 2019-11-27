@@ -36,6 +36,16 @@ public class TrianglePanel extends javax.swing.JPanel {
     public boolean isAdd = true;
 
     /**
+     * Determina se la modalità di inserimento è add o remove (true o false).
+     */
+    public boolean isDrag = false;
+
+    /**
+     * Determina se la modalità di inserimento è add o remove (true o false).
+     */
+    public boolean isCurved = false;
+
+    /**
      * Il modello del triangolo.
      */
     private TriangleModel triangleModel = new TriangleModel();
@@ -124,13 +134,13 @@ public class TrianglePanel extends javax.swing.JPanel {
     }//GEN-LAST:event_formMouseClicked
 
     private void formMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseReleased
-        if (isAdd) {
+        if (isAdd && !isDrag) {
             this.triangleModel.addDotToModel(new Point(
                     (int) evt.getPoint().getX(),
                     (int) evt.getPoint().getY()),
                     this.getWidth(), this.getHeight()
             );
-        } else {
+        } else if (!isDrag) {
 
             int i = 0;
             for (Point dot : dots) {
@@ -158,18 +168,29 @@ public class TrianglePanel extends javax.swing.JPanel {
     }//GEN-LAST:event_formMouseReleased
 
     private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
-        if (isAdd) {
+        if (isDrag) {
             int i = 0;
             for (Point dot : dots) {
-                if (evt.getX() > dot.x - triangleModel.RADIUS*2
-                        && evt.getX() < dot.getX() + triangleModel.RADIUS*2
-                        && evt.getY() > dot.y - triangleModel.RADIUS*2
-                        && evt.getY() < dot.getY() + triangleModel.RADIUS*2) {
-                    this.triangleModel.moveModelDot(i, new Point(
-                            (int) evt.getPoint().getX(),
-                            (int) evt.getPoint().getY()),
-                            this.getWidth(), this.getHeight()
-                    );
+                if (evt.getX() > dot.x - triangleModel.RADIUS * 2
+                        && evt.getX() < dot.getX() + triangleModel.RADIUS * 2
+                        && evt.getY() > dot.y - triangleModel.RADIUS * 2
+                        && evt.getY() < dot.getY() + triangleModel.RADIUS * 2) {
+                    if (isCurved) {
+                        this.triangleModel.moveModelDot(i, new Point(
+                                (int) evt.getPoint().getX(),
+                                (int) evt.getPoint().getY()),
+                                this.getWidth(), this.getHeight(),
+                                true
+                        );
+                    } else {
+                        this.triangleModel.moveModelDot(i, new Point(
+                                (int) evt.getPoint().getX(),
+                                (int) evt.getPoint().getY()),
+                                this.getWidth(), this.getHeight(),
+                                false
+                        );
+                    }
+
                     break;
                 }
                 i++;
