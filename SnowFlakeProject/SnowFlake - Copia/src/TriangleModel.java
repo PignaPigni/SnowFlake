@@ -52,7 +52,7 @@ public class TriangleModel {
     /**
      * Il Raggio dei punti di taglio.
      */
-    public int RADIUS = 10;
+    public int RADIUS = 5;
 
     /**
      * Costruttore della classe TriangleModel.
@@ -171,8 +171,5 @@ public class TriangleModel {
             dots.remove(i);
         }
         dots.add(i, new Point(x, y));
-        System.out.println("x: " + x);
-        System.out.println("y: " + y);
-
     }
 }

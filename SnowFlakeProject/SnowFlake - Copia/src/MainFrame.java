@@ -1,18 +1,11 @@
 
-import java.io.IOException;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+import javax.swing.UIManager;
 
 /**
  *
  * @author nicho
  */
 public class MainFrame extends javax.swing.JFrame {
-
     /**
      * Creates new form MainFrame
      */
@@ -56,7 +49,7 @@ public class MainFrame extends javax.swing.JFrame {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
                     break;
                 }
             }

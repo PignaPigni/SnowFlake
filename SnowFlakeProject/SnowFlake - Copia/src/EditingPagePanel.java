@@ -41,12 +41,21 @@ public class EditingPagePanel extends javax.swing.JPanel {
         currentFileName = new javax.swing.JLabel();
         dragRadioButton = new javax.swing.JRadioButton();
         curvedRadioButton1 = new javax.swing.JRadioButton();
+        livePreview = new javax.swing.JCheckBox();
         trianglePanel = new TrianglePanel();
+        bottomMenu = new javax.swing.JPanel();
+        generateButton = new javax.swing.JButton();
+        livePreviewPanel = new LivePreviewPanel();
+        topMenu = new javax.swing.JPanel();
+        livePreviewLabel = new javax.swing.JLabel();
+        triangleLabel = new javax.swing.JLabel();
 
         setMinimumSize(new java.awt.Dimension(1024, 768));
         setName(""); // NOI18N
         setPreferredSize(new java.awt.Dimension(1024, 768));
         setLayout(new java.awt.BorderLayout());
+
+        leftMenu.setPreferredSize(new java.awt.Dimension(150, 468));
 
         undoButton.setText("Undo");
         undoButton.addActionListener(new java.awt.event.ActionListener() {
@@ -135,6 +144,14 @@ public class EditingPagePanel extends javax.swing.JPanel {
             }
         });
 
+        livePreview.setSelected(true);
+        livePreview.setText("Live Preview");
+        livePreview.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                livePreviewActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout leftMenuLayout = new javax.swing.GroupLayout(leftMenu);
         leftMenu.setLayout(leftMenuLayout);
         leftMenuLayout.setHorizontalGroup(
@@ -144,18 +161,19 @@ public class EditingPagePanel extends javax.swing.JPanel {
                 .addGroup(leftMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(currentFileName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(resetButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(saveAsButton, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
+                    .addComponent(saveAsButton, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
                     .addComponent(saveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(openButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(undoButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(leftMenuLayout.createSequentialGroup()
                         .addGroup(leftMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(previewButton)
                             .addComponent(curvedRadioButton1)
                             .addComponent(addRadioButton)
-                            .addComponent(previewButton)
                             .addComponent(dragRadioButton)
                             .addComponent(removeRadioButton))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(livePreview, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         leftMenuLayout.setVerticalGroup(
@@ -176,6 +194,8 @@ public class EditingPagePanel extends javax.swing.JPanel {
                 .addGap(10, 10, 10)
                 .addComponent(previewButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(livePreview)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(openButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(saveButton)
@@ -183,12 +203,17 @@ public class EditingPagePanel extends javax.swing.JPanel {
                 .addComponent(saveAsButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(currentFileName)
-                .addContainerGap(466, Short.MAX_VALUE))
+                .addContainerGap(143, Short.MAX_VALUE))
         );
 
         add(leftMenu, java.awt.BorderLayout.WEST);
 
         trianglePanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        trianglePanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                trianglePanelMouseReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout trianglePanelLayout = new javax.swing.GroupLayout(trianglePanel);
         trianglePanel.setLayout(trianglePanelLayout);
@@ -203,6 +228,85 @@ public class EditingPagePanel extends javax.swing.JPanel {
 
         add(trianglePanel, java.awt.BorderLayout.CENTER);
         trianglePanel.getAccessibleContext().setAccessibleDescription("");
+
+        bottomMenu.setPreferredSize(new java.awt.Dimension(1024, 200));
+        bottomMenu.setRequestFocusEnabled(false);
+
+        generateButton.setBackground(new java.awt.Color(204, 255, 51));
+        generateButton.setFont(new java.awt.Font("Verdana", 0, 48)); // NOI18N
+        generateButton.setForeground(new java.awt.Color(153, 153, 0));
+        generateButton.setText("Generate");
+        generateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                generateButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout bottomMenuLayout = new javax.swing.GroupLayout(bottomMenu);
+        bottomMenu.setLayout(bottomMenuLayout);
+        bottomMenuLayout.setHorizontalGroup(
+            bottomMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(bottomMenuLayout.createSequentialGroup()
+                .addContainerGap(684, Short.MAX_VALUE)
+                .addComponent(generateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        bottomMenuLayout.setVerticalGroup(
+            bottomMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bottomMenuLayout.createSequentialGroup()
+                .addContainerGap(28, Short.MAX_VALUE)
+                .addComponent(generateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29))
+        );
+
+        add(bottomMenu, java.awt.BorderLayout.SOUTH);
+
+        livePreviewPanel.setLivePreview(livePreview.isEnabled());
+
+        javax.swing.GroupLayout livePreviewPanelLayout = new javax.swing.GroupLayout(livePreviewPanel);
+        livePreviewPanel.setLayout(livePreviewPanelLayout);
+        livePreviewPanelLayout.setHorizontalGroup(
+            livePreviewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        livePreviewPanelLayout.setVerticalGroup(
+            livePreviewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 468, Short.MAX_VALUE)
+        );
+
+        add(livePreviewPanel, java.awt.BorderLayout.EAST);
+
+        livePreviewLabel.setFont(new java.awt.Font("Verdana Pro Cond Black", 0, 24)); // NOI18N
+        livePreviewLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        livePreviewLabel.setText("Live Preview");
+
+        triangleLabel.setFont(new java.awt.Font("Verdana Pro Cond Black", 0, 24)); // NOI18N
+        triangleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        triangleLabel.setText("Triangle");
+        triangleLabel.setDoubleBuffered(true);
+
+        javax.swing.GroupLayout topMenuLayout = new javax.swing.GroupLayout(topMenu);
+        topMenu.setLayout(topMenuLayout);
+        topMenuLayout.setHorizontalGroup(
+            topMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, topMenuLayout.createSequentialGroup()
+                .addContainerGap(225, Short.MAX_VALUE)
+                .addComponent(triangleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(livePreviewLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        topMenuLayout.setVerticalGroup(
+            topMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, topMenuLayout.createSequentialGroup()
+                .addContainerGap(66, Short.MAX_VALUE)
+                .addGroup(topMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(livePreviewLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(triangleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        add(topMenu, java.awt.BorderLayout.PAGE_START);
     }// </editor-fold>//GEN-END:initComponents
 
     private void removeRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeRadioButtonActionPerformed
@@ -223,6 +327,7 @@ public class EditingPagePanel extends javax.swing.JPanel {
 
     private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
         trianglePanel.reset();
+        livePreviewPanel.updateFromArea(trianglePanel.generate());
         repaint();
     }//GEN-LAST:event_resetButtonActionPerformed
 
@@ -255,6 +360,7 @@ public class EditingPagePanel extends javax.swing.JPanel {
     private void dragRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dragRadioButtonActionPerformed
         trianglePanel.isAdd = false;
         trianglePanel.isDrag = true;
+        trianglePanel.isCurved = false;
     }//GEN-LAST:event_dragRadioButtonActionPerformed
 
     private void curvedRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_curvedRadioButton1ActionPerformed
@@ -263,20 +369,40 @@ public class EditingPagePanel extends javax.swing.JPanel {
         trianglePanel.isDrag = true;
     }//GEN-LAST:event_curvedRadioButton1ActionPerformed
 
+    private void generateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateButtonActionPerformed
+        livePreviewPanel.updateFromArea(trianglePanel.generate());
+
+    }//GEN-LAST:event_generateButtonActionPerformed
+
+    private void livePreviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_livePreviewActionPerformed
+        this.livePreviewPanel.setLivePreview(this.livePreview.isSelected());
+    }//GEN-LAST:event_livePreviewActionPerformed
+
+    private void trianglePanelMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_trianglePanelMouseReleased
+        livePreviewPanel.updateFromArea(trianglePanel.generate());
+    }//GEN-LAST:event_trianglePanelMouseReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton addRadioButton;
     private javax.swing.ButtonGroup addRemoveRadioButtons;
+    private javax.swing.JPanel bottomMenu;
     private javax.swing.JLabel currentFileName;
     private javax.swing.JRadioButton curvedRadioButton1;
     private javax.swing.JRadioButton dragRadioButton;
+    private javax.swing.JButton generateButton;
     private javax.swing.JPanel leftMenu;
+    private javax.swing.JCheckBox livePreview;
+    private javax.swing.JLabel livePreviewLabel;
+    private LivePreviewPanel livePreviewPanel;
     private javax.swing.JButton openButton;
     private javax.swing.JCheckBox previewButton;
     private javax.swing.JRadioButton removeRadioButton;
     private javax.swing.JButton resetButton;
     private javax.swing.JButton saveAsButton;
     private javax.swing.JButton saveButton;
+    private javax.swing.JPanel topMenu;
+    private javax.swing.JLabel triangleLabel;
     private TrianglePanel trianglePanel;
     private javax.swing.JButton undoButton;
     // End of variables declaration//GEN-END:variables

@@ -1,22 +1,20 @@
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.RenderingHints;
+import java.awt.geom.Area;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 /**
  *
- * @author nicho
+ * @author Nicho
  */
 public class TrianglePanel extends javax.swing.JPanel {
 
@@ -69,6 +67,7 @@ public class TrianglePanel extends javax.swing.JPanel {
      * Il file corrente del salvataggio dei punti.
      */
     public File currentFile = null;
+    private Area finalArea = new Area();
 
     /**
      * Creates new form TrianglePanel
@@ -80,6 +79,10 @@ public class TrianglePanel extends javax.swing.JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
         triangleModel.calculateTriangleByPanelSize(this.getWidth(), this.getHeight());
         triangle = triangleModel.getTriangle();
         dots = triangleModel.getDots(this.getWidth(), this.getHeight());
@@ -91,7 +94,7 @@ public class TrianglePanel extends javax.swing.JPanel {
             g.fillPolygon(cutPoly);
         } else {
             g.setColor(Color.BLACK);
-            g.fillPolygon(cutPoly);
+            g.drawPolygon(cutPoly);
         }
         if (drawDots) {
             g.setColor(Color.RED);
@@ -99,7 +102,6 @@ public class TrianglePanel extends javax.swing.JPanel {
                 g.fillOval(dot.x - triangleModel.RADIUS, dot.y - triangleModel.RADIUS, triangleModel.RADIUS * 2, triangleModel.RADIUS * 2);
             }
         }
-
     }
 
     /**
@@ -285,7 +287,7 @@ public class TrianglePanel extends javax.swing.JPanel {
         int returnVal = fc.showOpenDialog(mf);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             currentFile = fc.getSelectedFile();
-            System.out.println("name:\t" + currentFile.getName());
+            //System.out.println("name:\t" + currentFile.getName());
         } else {
             System.out.println("File doesn't exists.");
             currentFile = null;
@@ -307,16 +309,6 @@ public class TrianglePanel extends javax.swing.JPanel {
                 data = dot.toString().split(", ");
                 this.triangleModel.addDotToModel(new Point(Integer.parseInt(data[0]), Integer.parseInt(data[1])), this.getWidth(), this.getHeight());
             }
-
-            if (this.dots.size() >= 2) {
-                int[] xPoints = new int[this.dots.size()];
-                int[] yPoints = new int[this.dots.size()];
-                for (int i = 0; i < this.dots.size(); i++) {
-                    xPoints[i] = this.dots.get(i).x;
-                    yPoints[i] = this.dots.get(i).y;
-                }
-                this.cutPoly = new Polygon(xPoints, yPoints, this.dots.size());
-            }
         }
         repaint();
     }
@@ -326,6 +318,19 @@ public class TrianglePanel extends javax.swing.JPanel {
             return this.currentFile.getName();
         }
         return null;
+    }
+
+    /**
+     * Metodo che genera il fiocco di neve.
+     *
+     * @return Area l'area di taglio.
+     */
+    public Area generate() {
+        Area triangleArea = new Area(this.triangle);
+        Area cutPolyArea = new Area(this.cutPoly);
+        triangleArea.subtract(new Area(this.cutPoly));
+        finalArea = triangleArea;
+        return finalArea;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
