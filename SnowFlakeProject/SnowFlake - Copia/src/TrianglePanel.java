@@ -75,14 +75,14 @@ public class TrianglePanel extends javax.swing.JPanel {
     public TrianglePanel() {
         initComponents();
     }
-
+    
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
+        
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
+        
         triangleModel.calculateTriangleByPanelSize(this.getWidth(), this.getHeight());
         triangle = triangleModel.getTriangle();
         dots = triangleModel.getDots(this.getWidth(), this.getHeight());
@@ -143,7 +143,7 @@ public class TrianglePanel extends javax.swing.JPanel {
                     this.getWidth(), this.getHeight()
             );
         } else if (!isDrag) {
-
+            
             int i = 0;
             for (Point dot : dots) {
                 if (evt.getX() > dot.x - triangleModel.RADIUS
@@ -156,11 +156,11 @@ public class TrianglePanel extends javax.swing.JPanel {
                 i++;
             }
         }
-
+        
         this.dots = triangleModel.getDots(this.getWidth(), this.getHeight());
         int[] xPoints = new int[dots.size()];
         int[] yPoints = new int[dots.size()];
-
+        
         for (int i = 0; i < dots.size(); i++) {
             xPoints[i] = dots.get(i).x;
             yPoints[i] = dots.get(i).y;
@@ -192,19 +192,19 @@ public class TrianglePanel extends javax.swing.JPanel {
                                 false
                         );
                     }
-
+                    
                     break;
                 }
                 i++;
             }
         }
     }//GEN-LAST:event_formMouseDragged
-
+    
     public void refreshPoly() {
         this.dots = triangleModel.getDots(this.getWidth(), this.getHeight());
         int[] xPoints = new int[dots.size()];
         int[] yPoints = new int[dots.size()];
-
+        
         for (int i = 0; i < dots.size(); i++) {
             xPoints[i] = dots.get(i).x;
             yPoints[i] = dots.get(i).y;
@@ -212,23 +212,23 @@ public class TrianglePanel extends javax.swing.JPanel {
         cutPoly = new Polygon(xPoints, yPoints, dots.size());
         repaint();
     }
-
+    
     public void reset() {
         this.triangleModel.reset();
         repaint();
     }
-
+    
     public void undo() {
         this.triangleModel.undo();
         repaint();
     }
-
+    
     public void saveDots() {
         StringBuilder data = new StringBuilder();
         for (int i = 0; i < dots.size(); i++) {
             data.append(dots.get(i).x + ", " + dots.get(i).y + "\n");
         }
-
+        
         if (currentFile != null) {
             try {
                 currentFile.createNewFile();
@@ -255,13 +255,13 @@ public class TrianglePanel extends javax.swing.JPanel {
             }
         }
     }
-
+    
     public void saveDotsAs() {
         StringBuilder data = new StringBuilder();
         for (int i = 0; i < dots.size(); i++) {
             data.append(dots.get(i).x + ", " + dots.get(i).y + "\n");
         }
-
+        
         JFileChooser fc = new JFileChooser();
         MainFrame mf = new MainFrame();
         int returnVal = fc.showSaveDialog(mf);
@@ -279,7 +279,7 @@ public class TrianglePanel extends javax.swing.JPanel {
             currentFile = null;
         }
     }
-
+    
     public void openDots() {
         //JFileChooser
         JFileChooser fc = new JFileChooser();
@@ -312,7 +312,7 @@ public class TrianglePanel extends javax.swing.JPanel {
         }
         repaint();
     }
-
+    
     public String getCurrentFileName() {
         if (currentFile != null) {
             return this.currentFile.getName();
@@ -326,11 +326,30 @@ public class TrianglePanel extends javax.swing.JPanel {
      * @return Area l'area di taglio.
      */
     public Area generate() {
-        Area triangleArea = new Area(this.triangle);
-        Area cutPolyArea = new Area(this.cutPoly);
-        triangleArea.subtract(new Area(this.cutPoly));
+        TriangleModel tm = this.triangleModel;
+        tm.calculateTriangleByPanelSize(this.getWidth() / 4, this.getHeight() / 4);
+        Polygon t = tm.triangle;
+        System.out.println("t:\t" + t.getBounds());
+        
+        ArrayList<Point> punti = new ArrayList<>();
+        punti = tm.getDots(this.getWidth()/ 4, this.getHeight()/ 4);
+        int[] xPoints = new int[punti.size()];
+        int[] yPoints = new int[punti.size()];
+        for (int i = 0; i < punti.size(); i++) {
+            xPoints[i] = punti.get(i).x;
+            yPoints[i] = punti.get(i).y;
+        }
+        Polygon p = new Polygon(xPoints, yPoints, punti.size());
+        
+        Area triangleArea = new Area(t);
+        Area cutPolyArea = new Area(p);
+        triangleArea.subtract(new Area(cutPolyArea));
         finalArea = triangleArea;
         return finalArea;
+    }
+    
+    public TriangleModel getTriangleModel() {
+        return this.triangleModel;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

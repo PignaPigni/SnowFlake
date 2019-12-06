@@ -11,12 +11,19 @@ public class EditingPagePanel extends javax.swing.JPanel {
      * Il file del salvataggio dei punti di taglio del progetto corrente.
      */
     private File currentFile = null;
+    
+    /**
+     * Il triangolo modello.
+     */
+    private TriangleModel triangleModel = new TriangleModel();
 
     /**
      * Creates new form EditingPagePanel
      */
     public EditingPagePanel() {
         initComponents();
+        this.livePreviewPanel.setPoints(triangleModel.xPoints, triangleModel.yPoints);
+        this.triangleModel = trianglePanel.getTriangleModel();
     }
 
     /**
@@ -53,6 +60,11 @@ public class EditingPagePanel extends javax.swing.JPanel {
         setMinimumSize(new java.awt.Dimension(1024, 768));
         setName(""); // NOI18N
         setPreferredSize(new java.awt.Dimension(1024, 768));
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
         setLayout(new java.awt.BorderLayout());
 
         leftMenu.setPreferredSize(new java.awt.Dimension(150, 468));
@@ -371,7 +383,6 @@ public class EditingPagePanel extends javax.swing.JPanel {
 
     private void generateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateButtonActionPerformed
         livePreviewPanel.updateFromArea(trianglePanel.generate());
-
     }//GEN-LAST:event_generateButtonActionPerformed
 
     private void livePreviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_livePreviewActionPerformed
@@ -379,8 +390,17 @@ public class EditingPagePanel extends javax.swing.JPanel {
     }//GEN-LAST:event_livePreviewActionPerformed
 
     private void trianglePanelMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_trianglePanelMouseReleased
+        
+        this.livePreviewPanel.setPoints(triangleModel.getXPoints(), triangleModel.getYPoints());
+        this.livePreviewPanel.repaint();
         livePreviewPanel.updateFromArea(trianglePanel.generate());
     }//GEN-LAST:event_trianglePanelMouseReleased
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        System.out.println("points setted");
+        this.livePreviewPanel.setPoints(triangleModel.getXPoints(), triangleModel.getYPoints());
+        this.livePreviewPanel.repaint();
+    }//GEN-LAST:event_formMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

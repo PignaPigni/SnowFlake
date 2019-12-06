@@ -3,6 +3,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 
 /*
@@ -25,16 +27,25 @@ public class LivePreviewPanel extends javax.swing.JPanel {
      * L'area di taglio da cui costruire il fiocco di neve.
      */
     private Area cutArea = new Area();
-    
+
     /**
      * Il margine da mantenere
      */
     private int MARGIN = 0;
     
+    /**
+     * Le coordinate di punti y del triangolo modello.
+     */
+    private int[] xPoints;
     
     /**
-     * 
-     * @param g 
+     * Le coordinate di punti y del triangolo modello.
+     */
+    private int[] yPoints;
+
+    /**
+     *
+     * @param g
      */
     @Override
     public void paintComponent(Graphics g) {
@@ -45,13 +56,52 @@ public class LivePreviewPanel extends javax.swing.JPanel {
             g2.setColor(Color.WHITE);
             g2.translate(MARGIN, 0);
             g2.fill(this.cutArea);
+            //g.fillRect(465 - 100, 22, 35, 60);
+            //for(int i = 0; i < 6; i++){
+            //System.out.println("cutArea" + cutArea.getBounds());
+            g2.setColor(Color.RED);
+            //System.out.println(getFlippedArea(cutArea).getBounds());
+            g2.fill(getFlippedArea(cutArea));
+            g2.setColor(Color.GREEN);
+            //System.out.println(getRotateArea(90, cutArea).getBounds());
+            g2.fill(getRotateArea(60, cutArea));
+            //Area tempArea = (Area)getFlippedArea(cutArea);
+            g2.fill(getRotateArea(90, getFlippedArea(cutArea)));
+            
         }
     }
 
-    public void setMargin(){
-        this.MARGIN = MARGIN;
+    private Shape getRotateArea(int angle, Shape shape) {
+        AffineTransform af = new AffineTransform();
+        af.rotate(Math.toRadians(angle), (shape.getBounds().x+shape.getBounds().width), (shape.getBounds().x+shape.getBounds().width));
+        return af.createTransformedShape(shape);
+    }
+
+    /**
+     * Permette di avere l'area specchiata.
+     *
+     * @return Il triangolo specchiato.
+     */
+    private Shape getFlippedArea(Shape area) {
+        AffineTransform first = new AffineTransform();
+        first.scale(-1, 1);
+        AffineTransform toCenter = new AffineTransform();
+        toCenter.translate(-(area.getBounds().x+area.getBounds().width) * 2, 0);
+        AffineTransform tot = new AffineTransform();
+        tot.concatenate(first);
+        tot.concatenate(toCenter);
+        return tot.createTransformedShape(area);
+    }
+
+    public void setPoints(int[] xPoints, int[] yPoints) {
+        this.xPoints = xPoints;
+        this.yPoints = yPoints;
     }
     
+    public void setMargin() {
+        this.MARGIN = MARGIN;
+    }
+
     public void updateFromArea(Area cutArea) {
         this.cutArea = cutArea;
         System.out.println("generate");

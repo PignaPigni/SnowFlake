@@ -55,6 +55,16 @@ public class TriangleModel {
     public int RADIUS = 5;
 
     /**
+     * Le coordinate dei punti x del modello.
+     */
+    public int[] xPoints = new int[3];
+
+    /**
+     * Le coordinate dei punti y del modello.
+     */
+    public int[] yPoints = new int[3];
+
+    /**
      * Costruttore della classe TriangleModel.
      */
     public TriangleModel() {
@@ -62,8 +72,8 @@ public class TriangleModel {
 
     public void calculateTriangleByPanelSize(int width, int height) {
 
-        int[] xPoints = new int[3];
-        int[] yPoints = new int[3];
+        xPoints = new int[3];
+        yPoints = new int[3];
         int maxWidth = width - MARGIN * 2;
         int maxHeight = height - MARGIN * 2;
 
@@ -167,9 +177,17 @@ public class TriangleModel {
         this.calculateTriangleByPanelSize(width, height);
         int x = (newDot.x - triangle.xpoints[0]) * T_WIDTH / triangle.getBounds().width;
         int y = (newDot.y - triangle.ypoints[0]) * T_HEIGHT / triangle.getBounds().height;
-        if(!curved){
+        if (!curved) {
             dots.remove(i);
         }
         dots.add(i, new Point(x, y));
+    }
+
+    public int[] getXPoints() {
+        return this.xPoints;
+    }
+
+    public int[] getYPoints() {
+        return this.yPoints;
     }
 }
