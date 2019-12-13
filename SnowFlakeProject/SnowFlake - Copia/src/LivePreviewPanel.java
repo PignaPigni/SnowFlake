@@ -6,6 +6,15 @@ import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import javax.imageio.ImageIO;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -32,48 +41,109 @@ public class LivePreviewPanel extends javax.swing.JPanel {
      * Il margine da mantenere
      */
     private int MARGIN = 0;
-    
+
     /**
-     * Le coordinate di punti y del triangolo modello.
+     * Il file di salvataggio corrente dell'immagine png.
      */
-    private int[] xPoints;
+    private File currentPngFile = null;
     
-    /**
-     * Le coordinate di punti y del triangolo modello.
-     */
-    private int[] yPoints;
+    public boolean isMinimumResolution = true;
+    
+    private Graphics2D g2;
 
     /**
      *
      * @param g
      */
-    @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (isLivePreview) {
-            Graphics2D g2 = (Graphics2D) g;
+
+            g2 = (Graphics2D) g;
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2.setColor(Color.WHITE);
+            g2.setColor(Color.CYAN);
             g2.translate(MARGIN, 0);
-            g2.fill(this.cutArea);
-            //g.fillRect(465 - 100, 22, 35, 60);
-            //for(int i = 0; i < 6; i++){
-            //System.out.println("cutArea" + cutArea.getBounds());
-            g2.setColor(Color.RED);
-            //System.out.println(getFlippedArea(cutArea).getBounds());
-            g2.fill(getFlippedArea(cutArea));
-            g2.setColor(Color.GREEN);
-            //System.out.println(getRotateArea(90, cutArea).getBounds());
-            g2.fill(getRotateArea(60, cutArea));
-            //Area tempArea = (Area)getFlippedArea(cutArea);
-            g2.fill(getRotateArea(90, getFlippedArea(cutArea)));
-            
+            g2.translate(20, 0);
+
+            //SETTORE 1
+            Area sector1 = new Area(getFlippedArea(cutArea));
+            sector1.add(cutArea);
+            g2.fill(sector1);
+            //--------------------
+
+            //SETTORE 2
+            Area sector2 = new Area(getRotateArea(60, sector1));
+            g2.translate(sector1.getBounds().width, 0);
+            g2.fill(sector2);
+            //--------------------
+            //SETTORE 3
+            Area sector3 = new Area(getRotateArea(120, sector1));
+            g2.translate(sector1.getBounds().width / 2, sector2.getBounds().height);
+            g2.fill(sector3);
+            //--------------------
+
+            //SETTORE 4
+            Area sector4 = new Area(getRotateArea(180, sector1));
+            g2.translate(-sector1.getBounds().width / 2, sector1.getBounds().height);
+            g2.fill(sector4);
+            //--------------------
+
+            //SETTORE 5
+            Area sector5 = new Area(getRotateArea(240, sector1));
+            g2.translate(-sector1.getBounds().width, 0);
+            g2.fill(sector5);
+            //--------------------
+
+            //SETTORE 6
+            Area sector6 = new Area(getRotateArea(300, sector1));
+            g2.translate(-sector1.getBounds().width / 2, -sector1.getBounds().height);
+            g2.fill(sector6);
+            //--------------------
+            //this.setMargin(1);
         }
+    }
+
+    public void savePNG() {
+        if (this.currentPngFile != null) {
+            JFrame savePngFrame = new JFrame("Png Saved!");
+            JPanel jp = new JPanel();
+            savePngFrame.add(jp);
+            if(isMinimumResolution){
+                savePngFrame.setSize(500, 500);
+            }else{
+                savePngFrame.setSize(1000, 1000);
+            }
+            
+            //savePngFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            savePngFrame.setVisible(true);
+
+            try {
+                BufferedImage image = new BufferedImage(this.getWidth() + 7, this.getHeight() + 30, BufferedImage.TYPE_INT_RGB);
+                Graphics2D graphics2d = image.createGraphics();
+                savePngFrame.paint(graphics2d);
+                ImageIO.write(image, "png", new File(currentPngFile.getPath()));
+            } catch (Exception exception) {
+            }
+            
+            //savePngFrame.dispose();
+            //savePngFrame = new JFrame();
+            
+        } else {
+            JOptionPane jop = new JOptionPane();
+
+            jop.showMessageDialog(this, "No file selected!",
+                    "File Error",
+                    JOptionPane.ERROR_MESSAGE);
+            repaint();
+        }
+        
+
     }
 
     private Shape getRotateArea(int angle, Shape shape) {
         AffineTransform af = new AffineTransform();
-        af.rotate(Math.toRadians(angle), (shape.getBounds().x+shape.getBounds().width), (shape.getBounds().x+shape.getBounds().width));
+        //af.rotate(Math.toRadians(angle), (shape.getBounds().x+shape.getBounds().width), (shape.getBounds().y+shape.getBounds().height));
+        af.rotate(Math.toRadians(angle), shape.getBounds().x, shape.getBounds().y);
         return af.createTransformedShape(shape);
     }
 
@@ -86,27 +156,20 @@ public class LivePreviewPanel extends javax.swing.JPanel {
         AffineTransform first = new AffineTransform();
         first.scale(-1, 1);
         AffineTransform toCenter = new AffineTransform();
-        toCenter.translate(-(area.getBounds().x+area.getBounds().width) * 2, 0);
+        toCenter.translate(-(area.getBounds().x + area.getBounds().width) * 2, 0);
         AffineTransform tot = new AffineTransform();
         tot.concatenate(first);
         tot.concatenate(toCenter);
         return tot.createTransformedShape(area);
     }
 
-    public void setPoints(int[] xPoints, int[] yPoints) {
-        this.xPoints = xPoints;
-        this.yPoints = yPoints;
-    }
-    
     public void setMargin() {
         this.MARGIN = MARGIN;
     }
 
     public void updateFromArea(Area cutArea) {
         this.cutArea = cutArea;
-        System.out.println("generate");
         repaint();
-
     }
 
     /**
@@ -114,6 +177,7 @@ public class LivePreviewPanel extends javax.swing.JPanel {
      */
     public LivePreviewPanel() {
         initComponents();
+        cutArea = new Area();
     }
 
     public boolean getLivePreview() {
@@ -166,4 +230,21 @@ public class LivePreviewPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox livePreview;
     // End of variables declaration//GEN-END:variables
+
+    public void setCurrentFile(File currentPngFile) {
+        this.currentPngFile = currentPngFile;
+    }
+
+    public void selectPngFile() {
+        JFileChooser fc = new JFileChooser();
+        MainFrame mf = new MainFrame();
+        int returnVal = fc.showSaveDialog(mf);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            this.currentPngFile = fc.getSelectedFile();
+            System.out.println("name:\t" + currentPngFile.getName());
+        } else {
+            System.out.println("File doesn't exists.");
+            this.currentPngFile = null;
+        }
+    }
 }

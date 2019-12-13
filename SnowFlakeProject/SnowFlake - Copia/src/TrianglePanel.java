@@ -90,7 +90,7 @@ public class TrianglePanel extends javax.swing.JPanel {
         g.setColor(Color.CYAN);
         g.fillPolygon(triangle);
         if (fillPoly) {
-            g.setColor(Color.WHITE);
+            g.setColor(Color.GREEN);
             g.fillPolygon(cutPoly);
         } else {
             g.setColor(Color.BLACK);
@@ -305,7 +305,6 @@ public class TrianglePanel extends javax.swing.JPanel {
             String[] data = {"", ""};
             this.triangleModel.reset();
             for (Object dot : csvDots) {
-                System.out.println("dot: " + dot);
                 data = dot.toString().split(", ");
                 this.triangleModel.addDotToModel(new Point(Integer.parseInt(data[0]), Integer.parseInt(data[1])), this.getWidth(), this.getHeight());
             }
@@ -327,12 +326,11 @@ public class TrianglePanel extends javax.swing.JPanel {
      */
     public Area generate() {
         TriangleModel tm = this.triangleModel;
-        tm.calculateTriangleByPanelSize(this.getWidth() / 4, this.getHeight() / 4);
+        tm.calculateTriangleByPanelSize(this.getWidth() / 2, this.getHeight() / 2);
         Polygon t = tm.triangle;
-        System.out.println("t:\t" + t.getBounds());
         
         ArrayList<Point> punti = new ArrayList<>();
-        punti = tm.getDots(this.getWidth()/ 4, this.getHeight()/ 4);
+        punti = tm.getDots(this.getWidth()/ 2, this.getHeight()/ 2);
         int[] xPoints = new int[punti.size()];
         int[] yPoints = new int[punti.size()];
         for (int i = 0; i < punti.size(); i++) {
