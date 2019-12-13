@@ -9,6 +9,9 @@ import java.awt.geom.Area;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -56,6 +59,10 @@ public class LivePreviewPanel extends javax.swing.JPanel {
     public boolean isMinimumResolution = true;
 
     private Graphics2D g2;
+
+    public ArrayList<Area> getRenderAreas() {
+        return null;
+    }
 
     /**
      *
@@ -105,7 +112,13 @@ public class LivePreviewPanel extends javax.swing.JPanel {
             g2.translate(-sector1.getBounds().width / 2, -sector1.getBounds().height);
             g2.fill(sector6);
             //--------------------
-            //this.setMargin(1);
+            /*
+            g2.setColor(Color.RED);
+            g2.fill(cutArea);
+            for (int i = 0; i < 6 ; i++) {
+                g2.fill(getRotateArea((i-1)*60, getFlippedArea(cutArea)));
+                g2.fill(getRotateArea(i*60, cutArea));
+            }*/
         }
     }
 
@@ -120,18 +133,25 @@ public class LivePreviewPanel extends javax.swing.JPanel {
      * Salva un file Svg contenente l'immagine generata del fiocco di neve.
      */
     public void saveSVG() {
-        DOMImplementation domImpl
-                = GenericDOMImplementation.getDOMImplementation();
-        String svgNS = "http://www.w3.org/2000/svg";
-        Document document = domImpl.createDocument(svgNS, "svg", null);
-        SVGGraphics2D svgGenerator = new SVGGraphics2D(document);
-        this.paintComponent(svgGenerator);
-        boolean useCSS = true;
-        Writer out;
-        try {
-            svgGenerator.stream(this.currentSvgFile.toPath().toString());
-        } catch (SVGGraphics2DIOException e) {
+        if (this.currentSvgFile != null) {
+            DOMImplementation domImpl
+                    = GenericDOMImplementation.getDOMImplementation();
+            String svgNS = "http://www.w3.org/2000/svg";
+            Document document = domImpl.createDocument(svgNS, "svg", null);
+            SVGGraphics2D svgGenerator = new SVGGraphics2D(document);
+            this.paintComponent(svgGenerator);
+            try {
+                svgGenerator.stream(this.currentSvgFile.toPath().toString());
+            } catch (SVGGraphics2DIOException e) {
 
+            }
+        } else {
+            JOptionPane jop = new JOptionPane();
+
+            jop.showMessageDialog(this, "No file selected!",
+                    "File Error",
+                    JOptionPane.ERROR_MESSAGE);
+            repaint();
         }
     }
 
@@ -141,7 +161,6 @@ public class LivePreviewPanel extends javax.swing.JPanel {
     public void savePNG() {
         if (this.currentPngFile != null) {
             JFrame savePngFrame = new JFrame("Png Saved!");
-            JPanel jp = new JPanel();
             savePngFrame.add(this);
             if (isMinimumResolution) {
                 savePngFrame.setSize(500, 500);
@@ -156,7 +175,7 @@ public class LivePreviewPanel extends javax.swing.JPanel {
                 BufferedImage image = new BufferedImage(this.getWidth() + 7, this.getHeight() + 30, BufferedImage.TYPE_INT_ARGB);
                 Graphics2D graphics2d = image.createGraphics();
                 savePngFrame.paint(graphics2d);
-                ImageIO.write(image, "png", new File(currentPngFile.getPath()));
+                ImageIO.write(image, "png", new File(this.currentPngFile.getPath()));
             } catch (Exception exception) {
             }
 
@@ -175,7 +194,6 @@ public class LivePreviewPanel extends javax.swing.JPanel {
 
     private Shape getRotateArea(int angle, Shape shape) {
         AffineTransform af = new AffineTransform();
-        //af.rotate(Math.toRadians(angle), (shape.getBounds().x+shape.getBounds().width), (shape.getBounds().y+shape.getBounds().height));
         af.rotate(Math.toRadians(angle), shape.getBounds().x, shape.getBounds().y);
         return af.createTransformedShape(shape);
     }
@@ -196,8 +214,8 @@ public class LivePreviewPanel extends javax.swing.JPanel {
         return tot.createTransformedShape(area);
     }
 
-    public void setMargin() {
-        this.MARGIN = MARGIN;
+    public void setMargin(int margin) {
+        this.MARGIN = margin;
     }
 
     public void updateFromArea(Area cutArea) {
@@ -263,10 +281,6 @@ public class LivePreviewPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox livePreview;
     // End of variables declaration//GEN-END:variables
-
-    public void setCurrentFile(File currentPngFile) {
-        this.currentPngFile = currentPngFile;
-    }
 
     public String selectPngFile() {
         JFileChooser fc = new JFileChooser();

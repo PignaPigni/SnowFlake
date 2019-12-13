@@ -1,9 +1,4 @@
 
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import javax.imageio.ImageIO;
-import javax.swing.JFrame;
 
 /**
  *
@@ -11,10 +6,6 @@ import javax.swing.JFrame;
  */
 public class EditingPagePanel extends javax.swing.JPanel {
 
-    /**
-     * Il file del salvataggio dei punti di taglio del progetto corrente.
-     */
-    private File currentFile = null;
 
     /**
      * Il triangolo modello.
@@ -26,8 +17,7 @@ public class EditingPagePanel extends javax.swing.JPanel {
      */
     public EditingPagePanel() {
         initComponents();
-        this.livePreviewPanel.setCurrentFile(this.currentFile);
-        this.triangleModel = trianglePanel.getTriangleModel();
+        this.triangleModel = this.trianglePanel.getTriangleModel();
     }
 
     /**
@@ -341,6 +331,8 @@ public class EditingPagePanel extends javax.swing.JPanel {
         generateButton.setFont(new java.awt.Font("Verdana", 0, 48)); // NOI18N
         generateButton.setForeground(new java.awt.Color(153, 153, 0));
         generateButton.setText("Generate");
+        generateButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        generateButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         generateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 generateButtonActionPerformed(evt);
@@ -351,21 +343,17 @@ public class EditingPagePanel extends javax.swing.JPanel {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 275, Short.MAX_VALUE)
-            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel4Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(generateButton)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(generateButton, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 180, Short.MAX_VALUE)
-            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel4Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(generateButton, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-                    .addContainerGap()))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(generateButton, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         svgSavePanel.setBackground(new java.awt.Color(255, 153, 0));
@@ -491,81 +479,79 @@ public class EditingPagePanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void removeRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeRadioButtonActionPerformed
-        trianglePanel.isAdd = false;
-        trianglePanel.isDrag = false;
+        this.trianglePanel.isAdd = false;
+        this.trianglePanel.isDrag = false;
     }//GEN-LAST:event_removeRadioButtonActionPerformed
 
     private void addRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addRadioButtonActionPerformed
-        trianglePanel.isAdd = true;
-        trianglePanel.isDrag = false;
+        this.trianglePanel.isAdd = true;
+        this.trianglePanel.isDrag = false;
     }//GEN-LAST:event_addRadioButtonActionPerformed
 
     private void previewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previewButtonActionPerformed
-        trianglePanel.fillPoly = !trianglePanel.fillPoly;
-        trianglePanel.drawDots = !trianglePanel.drawDots;
+        this.trianglePanel.fillPoly = !this.trianglePanel.fillPoly;
+        this.trianglePanel.drawDots = !this.trianglePanel.drawDots;
         repaint();
     }//GEN-LAST:event_previewButtonActionPerformed
 
     private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
-        trianglePanel.reset();
-        this.livePreviewPanel = new LivePreviewPanel();
-
-        this.livePreviewPanel.updateFromArea(trianglePanel.generate());
+        this.trianglePanel.reset();
+        this.livePreviewPanel.updateFromArea(this.trianglePanel.generate());
         repaint();
     }//GEN-LAST:event_resetButtonActionPerformed
 
     private void undoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoButtonActionPerformed
-        trianglePanel.undo();
-        this.livePreviewPanel.updateFromArea(trianglePanel.generate());
+        this.trianglePanel.undo();
+        this.livePreviewPanel.updateFromArea(this.trianglePanel.generate());
         repaint();
     }//GEN-LAST:event_undoButtonActionPerformed
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        trianglePanel.saveDots();
-        if (trianglePanel.getCurrentFileName() != null) {
-            this.currentFileName.setText("Working File: " + trianglePanel.currentFile.getName());
+        this.trianglePanel.saveDots();
+        if (this.trianglePanel.getCurrentFileName() != null) {
+            this.currentFileName.setText("Working File: " + this.trianglePanel.currentFile.getName());
         }
-        this.livePreviewPanel.updateFromArea(trianglePanel.generate());
+        this.livePreviewPanel.updateFromArea(this.trianglePanel.generate());
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void openButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openButtonActionPerformed
-        trianglePanel.openDots();
-        if (trianglePanel.getCurrentFileName() != null) {
-            this.currentFileName.setText("Working File: " + trianglePanel.currentFile.getName());
+        this.trianglePanel.openDots();
+        if (this.trianglePanel.getCurrentFileName() != null) {
+            this.currentFileName.setText("Working File: " + this.trianglePanel.currentFile.getName());
         }
-        this.livePreviewPanel.updateFromArea(trianglePanel.generate());
+        this.livePreviewPanel.updateFromArea(this.trianglePanel.generate());
 
     }//GEN-LAST:event_openButtonActionPerformed
 
     private void saveAsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsButtonActionPerformed
-        trianglePanel.saveDotsAs();
-        if (trianglePanel.getCurrentFileName() != null) {
-            this.currentFileName.setText("Working File: " + trianglePanel.currentFile.getName());
+        this.trianglePanel.saveDotsAs();
+        if (this.trianglePanel.getCurrentFileName() != null) {
+            this.currentFileName.setText("Working File: " + this.trianglePanel.currentFile.getName());
         }
-        this.livePreviewPanel.updateFromArea(trianglePanel.generate());
+        this.livePreviewPanel.updateFromArea(this.trianglePanel.generate());
 
     }//GEN-LAST:event_saveAsButtonActionPerformed
 
     private void dragRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dragRadioButtonActionPerformed
-        trianglePanel.isAdd = false;
-        trianglePanel.isDrag = true;
-        trianglePanel.isCurved = false;
+        this.trianglePanel.isAdd = false;
+        this.trianglePanel.isDrag = true;
+        this.trianglePanel.isCurved = false;
     }//GEN-LAST:event_dragRadioButtonActionPerformed
 
     private void curvedRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_curvedRadioButton1ActionPerformed
-        trianglePanel.isCurved = true;
-        trianglePanel.isAdd = false;
-        trianglePanel.isDrag = true;
+        this.trianglePanel.isCurved = true;
+        this.trianglePanel.isAdd = false;
+        this.trianglePanel.isDrag = true;
     }//GEN-LAST:event_curvedRadioButton1ActionPerformed
 
     private void livePreviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_livePreviewActionPerformed
         this.livePreviewPanel.setLivePreview(this.livePreview.isSelected());
-        this.livePreviewPanel.updateFromArea(trianglePanel.generate());
+        this.livePreviewPanel.updateFromArea(this.trianglePanel.generate());
     }//GEN-LAST:event_livePreviewActionPerformed
 
     private void trianglePanelMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_trianglePanelMouseReleased
         this.livePreviewPanel.repaint();
-        this.livePreviewPanel.updateFromArea(trianglePanel.generate());
+        this.livePreviewPanel.updateFromArea(this.trianglePanel.generate());
     }//GEN-LAST:event_trianglePanelMouseReleased
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
@@ -578,7 +564,7 @@ public class EditingPagePanel extends javax.swing.JPanel {
 
     private void pngFileChooserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pngFileChooserButtonActionPerformed
         if (this.livePreviewPanel.selectPngFile() != null) {
-            this.pngFileSelected.setText("Working File: " + livePreviewPanel.currentPngFile.getName());
+            this.pngFileSelected.setText("Working File: " + this.livePreviewPanel.currentPngFile.getName());
         }
     }//GEN-LAST:event_pngFileChooserButtonActionPerformed
 
@@ -596,7 +582,7 @@ public class EditingPagePanel extends javax.swing.JPanel {
 
     private void svgFileChooserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_svgFileChooserButtonActionPerformed
         if (this.livePreviewPanel.selectSvgFile() != null) {
-            this.svgFileSelected.setText("Working File: " + livePreviewPanel.currentSvgFile.getName());
+            this.svgFileSelected.setText("Working File: " + this.livePreviewPanel.currentSvgFile.getName());
         }
     }//GEN-LAST:event_svgFileChooserButtonActionPerformed
 
