@@ -1,2 +1,0 @@
-Canvas
-Canvas$1

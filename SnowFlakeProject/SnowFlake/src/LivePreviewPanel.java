@@ -167,29 +167,22 @@ public class LivePreviewPanel extends javax.swing.JPanel {
             } else {
                 savePngFrame.setSize(1000, 1000);
             }
-
-            //savePngFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             savePngFrame.setVisible(true);
-
             try {
-                BufferedImage image = new BufferedImage(this.getWidth() + 7, this.getHeight() + 30, BufferedImage.TYPE_INT_ARGB);
+                BufferedImage image = new BufferedImage(this.getWidth() + 7, 
+                        this.getHeight() + 30, 
+                        BufferedImage.TYPE_INT_ARGB);
                 Graphics2D graphics2d = image.createGraphics();
                 savePngFrame.paint(graphics2d);
                 ImageIO.write(image, "png", new File(this.currentPngFile.getPath()));
-            } catch (Exception exception) {
-            }
-
-            //savePngFrame.dispose();
-            //savePngFrame = new JFrame();
+            } catch (Exception exception) {}
         } else {
             JOptionPane jop = new JOptionPane();
-
             jop.showMessageDialog(this, "No file selected!",
                     "File Error",
                     JOptionPane.ERROR_MESSAGE);
             repaint();
         }
-
     }
 
     private Shape getRotateArea(int angle, Shape shape) {

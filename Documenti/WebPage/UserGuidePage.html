@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</head>
+<body style="margin: 20px">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="#">User Guide</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="DownloadPage.html">Download</a>
+        </li>
+    </ul>
+    <br>
+    <h1><span class="badge badge-success" style="color: rgb(70,70,70)">User Guide</span></h1>
+    <hr>
+    
+    <h3><span class="badge badge-success" style="color: rgb(200,200,200)">Graphics Description</span></h3>
+<!-- DECKS  --> 
+    <div>
+        <div class="card-deck">
+          <div class="card bg-primary">
+            <div class="card-body text-center">
+                <div class="card" style="width:auto">
+                  <img class="card-img-top" src="IMG/MainView.PNG" alt="Card image">
+                  <div class="card-body">
+                    <h4 class="card-title">Main View</h4>
+                    <p class="card-text">Questa è la schermata iniziale di editing del fiocco di neve personalizzato. Qui si possono trovare tutti gli elementi necessari per modificare il triangolo che genererà il fiocco di neve. A sinistra si trova il menu per il salvataggio e la modifica dei punti di taglio; in centro e centro-destra troviamo il pannello del triangolo generatore e il pannello del fiocco di neve generato; in basso troviamo le modalità di salvataggio del fiocco (Svg e Png) e il bottone per generare un'anteprima del fiocco in una finestra a parte.</p>
+                  </div>
+                </div>
+            </div>
+          </div>
+          <div class="card bg-warning">
+            <div class="card-body text-center">
+              <div class="card" style="width:auto">
+                  <img class="card-img-top" src="IMG/CutExample.PNG" alt="Card image">
+                  <div class="card-body">
+                    <h4 class="card-title">Triangle Cutting</h4>
+                    <p class="card-text">Nel menu di sinistra è possibile selezionare il metodo di modifica dei punti di taglio, selezionando "add" verranno aggiunti i punti, con curved line sarà possibile creare una linea curva, con remove si potrà rimuovere un punto desiderato tramite un click su di esso, infine selezionando "drag" si potrà modificare la posizione di un punto semplicemente trascinandolo. Per resettare i punti utilizzare il tasto "Reset", mentre per tornare indietro di un'operazione il tasto "Undo".<br> Il salvataggio dei punti p</p>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+        <br>
+
+        <!-- DECK 2 --> 
+        <div class="card-deck">
+          <div class="card bg-success">
+            <div class="card-body text-center">
+                <div class="card" style="width:auto">
+                  <img class="card-img-top" src="IMG/LivePreview.PNG" alt="Card image">
+                  <div class="card-body">
+                    <h4 class="card-title">Live Preview</h4>
+                    <p class="card-text">Ad ogni modifica dei punti di taglio del triangolo apparirà un'anteprima in live che mostra come sarà il fiocco generato.</p>
+                  </div>
+                </div>
+            </div>
+          </div>
+          <div class="card bg-danger">
+            <div class="card-body text-center">
+              <div class="card" style="width:auto">
+                  <img class="card-img-top" src="IMG/BottomMenu.png" alt="Card image">
+                  <div class="card-body">
+                    <h4 class="card-title">Bottom Menu</h4>
+                    <p class="card-text">Questo è il menu sottostante ai pannelli di anteprima del fiocco e della modifica dei punti di taglio. Qui possiamo trovare i 2 metodi di salvataggio presenti nell'applicazione, il fiocco infatti potrà venir salvato come immagine vettoriale (SVG) oppure anche come immagine PNG scegliendo tra le 2 risoluzioni di 500x500 px e 1000x1000px. Per entrambi i metodi di salvataggio è necessario prima di tutto scegliere il file di salvataggio utilizzando il bottone "File Chooser", troveremo il nome del file a fianco.</p>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <hr>
+    
+    
+    
+    
+    <h3><span class="badge badge-success" style="color: rgb(200,200,200)">Step-By-Step User Guide - Create Your Own SnowFlake</span></h3>
+   <br>
+    <h4><span class="badge badge-primary" style="color: rgb(50,50,50)"s>Triangle Cutting Operations</span></h4>
+        <div class="card-deck">
+          <div class="card bg-primary">
+            <div class="card-body text-center">
+                <div class="card" style="width:auto">
+                  <img class="card-img-top" src="IMG/StepByStep/Step1-Add.PNG" alt="Card image">
+                  <div class="card-body">
+                    <h4 class="card-title">Add Points</h4>
+                    <p class="card-text">Per l'aggiunta di un punto di taglio selezionare il radio button "Add" e inserire i punti di taglio desiderati.</p>
+                  </div>
+                </div>
+            </div>
+          </div>
+          <div class="card bg-primary">
+            <div class="card-body text-center">
+              <div class="card" style="width:auto">
+                  <img class="card-img-top" src="IMG/StepByStep/Step2-CurvedLine.PNG" alt="Card image">
+                  <div class="card-body">
+                    <h4 class="card-title">Curved Line</h4>
+                    <p class="card-text">Per aggiungere una linea curva ai punti di taglio selezionare il radio button chiamato "Curved Line", in seguito cliccare su un punto già esistente  trascinare il mouse per creare la linea.</p>
+                  </div>
+                </div>
+            </div>
+          </div>
+          <div class="card bg-primary">
+            <div class="card-body text-center">
+                <div class="card" style="width:auto">
+                  <img class="card-img-top" src="IMG/StepByStep/Step3-Remove.PNG" alt="Card image">
+                  <div class="card-body">
+                    <h4 class="card-title">Remove Points</h4>
+                    <p class="card-text">Per la rimozione di un punto di taglio invece selezionare il radio button "Remove" e cliccare sui punti di taglio da rimuovere.</p>
+                  </div>
+                </div>
+            </div>
+          </div>
+          <div class="card bg-primary">
+            <div class="card-body text-center">
+              <div class="card" style="width:auto">
+                  <img class="card-img-top" src="IMG/StepByStep/Step4-Drag.PNG" alt="Card image">
+                  <div class="card-body">
+                    <h4 class="card-title">Drag Points</h4>
+                    <p class="card-text">Per spostare un punto utilizzare il radio button "Drag" ed effettuare un trascinamento con il mouse sul punto selezionato. Non è possibile spostare più di un punto alla volta.</p>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+    <br>
+    
+    <!--DECK 2---------------------------------------------------------->
+    <div class="card-deck">
+          <div class="card bg-primary">
+            <div class="card-body text-center">
+                <div class="card" style="width:auto">
+                  <img class="card-img-top" src="IMG/StepByStep/Step5-Undo.PNG" alt="Card image">
+                  <div class="card-body">
+                    <h4 class="card-title">Undo Operations</h4>
+                    <p class="card-text">Se per errore viene immesso uno o più punti di taglio con il pulsante "Undo" verrà annullata l'ultima operazione, aggiustando l'errore prodotto.</p>
+                  </div>
+                </div>
+            </div>
+          </div>
+          <div class="card bg-primary">
+            <div class="card-body text-center">
+              <div class="card" style="width:auto">
+                  <img class="card-img-top" src="IMG/StepByStep/Step6-Reset.PNG" alt="Card image">
+                  <div class="card-body">
+                    <h4 class="card-title">Reset Points</h4>
+                    <p class="card-text">Durante la produzione di un nuovo fiocco ci si può accorgere che i punti di taglio non sono posizionati correttamente, per ripristinare i punti cliccare il tasto "Reset".</p>
+                  </div>
+                </div>
+            </div>
+          </div>
+          <div class="card bg-primary">
+            <div class="card-body text-center">
+                <div class="card" style="width:auto">
+                  <img class="card-img-top" src="IMG/StepByStep/Step7-Preview.PNG" alt="Card image">
+                  <div class="card-body">
+                    <h4 class="card-title">Preview</h4>
+                    <p class="card-text">Per visualizzare come verrà effettuato il ritaglio del triangolo spuntare il checkbox "Preview".</p>
+                  </div>
+                </div>
+            </div>
+          </div>
+          <div class="card bg-primary">
+            <div class="card-body text-center">
+              <div class="card" style="width:auto">
+                  <img class="card-img-top" src="IMG/StepByStep/Step8-LivePreview.PNG" alt="Card image">
+                  <div class="card-body">
+                    <h4 class="card-title">Live Preview</h4>
+                    <p class="card-text">Per rimuovere l'anteprima in tempo reale di come verrebbe il fiocco se venisse salvato rimuovere la spunta dal checkbox "Live Preview"</p>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+    
+    <br>
+    <!--DECK 3---------------------------------------------------------->
+    <h4><span class="badge badge-warning" style="color: rgb(50,50,50)">Saving Operations</span></h4>
+        <div class="card-deck">
+          <div class="card bg-warning">
+            <div class="card-body text-center">
+                <div class="card" >
+                  <img class="card-img-top" src="IMG/StepByStep/Step9-OpenDots.PNG" alt="Card image">
+                  <div class="card-body">
+                    <h4 class="card-title">Open Dots</h4>
+                    <p class="card-text">Per aprire un file di salvataggio contenente dei punti di taglio cliccare il bottone "Open Dots", questi aprirà una schermata di apertura, selezionare il file desiderato e premere enter. I punti di taglio verranno caricati.</p>
+                  </div>
+                </div>
+            </div>
+          </div>
+          <div class="card bg-warning">
+            <div class="card-body text-center">
+              <div class="card " style="width">
+                  <img class="card-img-top" src="IMG/StepByStep/Step10-SaveDots.PNG" alt="Card image">
+                  <div class="card-body">
+                    <h4 class="card-title">Save Dots</h4>
+                    <p class="card-text">Per poter interrompere il lavoro e salvare i punti di taglio del fiocco utilizzare i bottoni "Save Dots" e "Save Dots As". Se vi è già stato selezionato un file di salvataggio (leggere il nome sotto i bottoni) entrambi i bottoni apriranno una nuova finestra di salvataggio file, altrimenti tramite "Save Dots" si potranno salvare i punti dal file precedentemente aperto. Per salvare i punti in un nuovo file fare "Save Dots As". Attenzione: Il nome del file deve finire con ".csv" per poter essere riconosciuto.</p>
+                  </div>
+                </div>
+            </div>
+          </div>          
+        </div>
+    
+        <br>
+        <div class="card-deck">
+          <div class="card bg-warning">
+            <div class="card-body text-center">
+                <div class="card" >
+                  <img class="card-img-top" src="IMG/StepByStep/Step12-SavePng.PNG" alt="Card image">
+                  <div class="card-body">
+                    <h4 class="card-title">Save PNG Image</h4>
+                    <p class="card-text">Per poter salvare il lavoro di ritaglio eseguito come immagine raster in formato PNG recarsi nel menu in basso dove troveremo due sezioni di salvataggio con sfondo arancione. In quella di sinistra (Save PNG) selezionare prima di tutto la grandezza desiderata dell'immagine da salvare (1000x1000px o 500x500px), poi scegliere il file di destinazione con il botton "File Chooser" ed infine cliccare "Save PNG" per salvare l'immagine.</p>
+                  </div>
+                </div>
+            </div>
+          </div>
+          <div class="card bg-warning">
+            <div class="card-body text-center">
+              <div class="card " style="width">
+                  <img class="card-img-top" src="IMG/StepByStep/Step13-SaveSvg.PNG" alt="Card image">
+                  <div class="card-body">
+                    <h4 class="card-title">Save SVG Image</h4>
+                    <p class="card-text">Per il savataggio del fiocco in formato SVG (immagine vettoriale) si procede come per il salvataggio in formato PNG solamente che non ci sarà da selezionare la grandezza essendo un'immagine composta da funzioni matematiche e non da pixels. Perciò selezionare il file nel "File Chooser" e poi cliccare "Save SVG".</p>
+                  </div>
+                </div>
+            </div>
+          </div>          
+        </div>
+        <br>
+    
+
+    <!--DECK 4---------------------------------------------------------->
+        <h4><span class="badge badge-danger" style="color: rgb(50,50,50)">Generate Operations</span></h4>
+        <div class="card-deck">
+          <div class="card bg-danger mb-3 col-sm-7">
+            <div class="card-body text-center">
+                <div class="card" >
+                  <img class="card-img-top" src="IMG/StepByStep/Step11-GenerateButton.PNG" alt="Card image">
+                  <div class="card-body">
+                    <h4 class="card-title">Gnerate SnowFlake</h4>
+                    <p class="card-text">Per generare il fiocco di neve in un'altra finestra cliccare il tasto genera e apparirà un JFrame contenente il nuovo SnowFlake appena disegnato.</p>
+                  </div>
+                </div>
+            </div>
+          </div>
+</body>
+</html>
