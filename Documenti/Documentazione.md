@@ -31,7 +31,7 @@
 ### Diagramma UML
 Il diagramma UML delle classi con le loro relazioni:
 
-<img src="IMG/SnowFlake-UML.PNG" style="border-radius: 20px; border: 5px solid green;">
+<img src="IMG/SnowFlake-UML.png" style="border-radius: 20px; border: 5px solid green;">
 
 ### Requisiti 
 <div id="requisiti">
